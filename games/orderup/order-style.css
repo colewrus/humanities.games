@@ -1,0 +1,83 @@
+.buffer{
+	width: 20%;
+
+}
+
+#gamespace{
+	width: 60%;
+	overflow: hidden;
+	height:425px;
+	position: relative;
+	padding:0px 15px;
+}
+
+#gamespace button{
+	position: relative;
+	margin: 15% auto;
+	display: block;
+	width: 150px;
+}
+
+.note{
+	text-align: center;
+	
+}
+
+#order{
+	padding: 12px 0px;
+	
+}
+
+
+.botButtons{
+	width: 100%;
+	position: absolute;
+	bottom:0;
+	left:0;
+	border: 1px solid black;
+}
+
+
+.botButtons ul {
+	padding: 5px 15px;
+	margin: 0 auto;
+}
+
+.botButtons ul li{
+	display:inline-block;
+	width: 10vw;
+	padding: 1px 4px;
+	background-color: yellow;
+	border-radius: 15px;
+	text-align: center;
+	cursor: pointer;
+	margin-top: 2px;
+	height:3vw;
+}
+
+#follow{
+	border: 2px solid #000;
+	border-radius:50%;
+	position: absolute;
+	transition: 0.1s;
+	transform: translate(-50%, -50%);
+	width:25px;
+	height: 25px;
+}
+
+.field{
+	padding: 5px 2px;
+}
+
+.field p {
+	color: white;
+}
+
+.modifier{
+	width: 15%;
+	height: 15%;
+	border: 1px solid black;
+	bottom: 0;
+	display: inline-block;
+	padding: 1px 5px;
+}

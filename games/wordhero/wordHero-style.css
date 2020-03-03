@@ -1,0 +1,89 @@
+.buffer{
+	width: 20vw;
+	background-color:#EEE;
+	
+}
+
+#gamespace{
+	width: 60vw;
+	overflow: hidden;
+	height:40vw;
+	position: relative;
+	
+}
+
+#gamespace:hover{
+	cursor: none;
+}
+
+#one{
+	width:6vw;
+	height: 6vw;
+	position: absolute;
+	border: 1px solid black;
+	background-color: blue;
+}
+
+#two{
+	width:6vw;
+	height: 6vw;
+	position: absolute;
+	border: 1px solid black;
+	background-color: green;
+	left: 9vw;
+	top: 3vw;
+}
+
+.objects{
+	top:0;
+	left: 0;
+	position: absolute;
+	width: 1vw;
+	height: 1vw;
+	background:blue;
+}
+
+#pointer{
+	width:1vw;
+	height:1vw;
+	border:1px solid gray;
+	position: absolute;
+	background-color:black;
+	border-radius: 1vw;
+}
+
+#paddle{
+	width: 9vw;
+	height: 4vw;
+	position: absolute;
+	bottom: 1.5vh;
+	background-color: #5AA;
+    border-radius: 1vw;
+}
+
+#paddle img{
+	margin-left: 25%;
+	width: 5vw;
+	height: 5vw;
+}
+
+#score{
+    position: absolute;
+    top:1vh;
+    right:0; 
+    background-color: rgba(50,50,50, 0.65);
+    height: 4vh;
+    font-size: 3vh;
+    z-index: 5;
+    width: 6vw;
+    border-radius: 3px;
+}
+
+#score p{
+    float: right;
+    color: white;
+}
+
+
+
+

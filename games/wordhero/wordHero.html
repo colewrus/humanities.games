@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Custom Style -->
+	<link rel="stylesheet" type="text/css" href="wordHero-style.css">
+    <title>Word Hero</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  </head>
+  <body>
+  
+    
+	
+	<div class="container-fluid">
+        <div class="row" id="header">
+            <h1>Word Hero</h1>
+        </div>
+        <div class="row">   
+			<div class="buffer">
+			</div>
+			<div id="gamespace">		
+                <div id="score">
+                    <p>0000</p>
+                </div>
+            <!--
+                <div id="one">
+                </div>
+
+                <div id="two">
+                </div>
+            -->
+                <div class="fall">
+					<p>Test</p>
+                </div>
+
+                <div class="fall">
+					<p>Test</p>
+                </div>
+
+                <div class="fall">
+					<p>Test</p>
+                </div>
+
+                <div class="fall">
+					<p>Test</p>
+                </div>
+
+                <div class="fall">
+					<p>Test</p>
+                </div>
+
+                <div class="fall">
+					<p>Test</p>
+                </div>
+
+                <!--<div id='pointer'>
+                </div>-->
+
+                <div id='paddle'>
+					<img src='art/cole.gif' />
+                </div>
+
+			</div>
+			<div class="buffer">
+			</div>
+        </div>
+
+	
+	</div>
+    
+    <script> 
+		//falling objects that are words that you catch, they need to meet certain requirements. That can pop up one at a time below or be a part of a quest to catch X number of [prepositions, nouns, country names, historical events, authors, book titles]
+		
+        
+        //how do we determine that the word is correct? 
+            //bonus for collecting a specific type or category
+            //generic catch-all "valid"? 
+        var mythWords = [
+            {name: 'Ajax', category: 'greek-myth', type: 'hero', valid: true, caught: false},
+            {name: 'Odin', category: 'norse-myth', type:'god', valid: true, caught: false},
+            {name: 'Anubis', category: 'egypt-myth', type: 'god', valid: true, caught: false },
+            {name: 'Gandalf', category: 'fantasy', type:'hero', valid:false, caught: false},
+            {name: 'Mjolnir', category: 'norse-myth', type:'item', valid: true, caught: false}
+        ]
+        
+        //Evaluation tools
+        var score; //text and
+        var bonus; //do a streak modifier
+        var streak; //just a raw count of how many in a row
+        
+        var prompt; //turn this into a key pair for the data key and it's value, used to check for if a player got the prompt right
+            //prompts could also be hint. "the hammer of Thor" 
+        
+        var wordBoxes = new Array();//array of the actual DOM elements so we can topToBot and compare
+        
+        var rate; //how often are we sending a wordBox down
+        
+		
+		$(window).on('load', function(){
+            paddlePos = 0;
+		//it doesn't matter, nona this matters
+			$('#one').data("val", {
+				name: 'Achilles',
+				touched: false
+				});
+			$('#two').data("val",{
+				name: 'Ajax',
+				touched: false
+				});
+			setBoxes();
+			var dropboxes = setInterval(function(){
+				sendBoxes();
+			}, 1500);
+          
+		});
+		
+       //Paddle controls
+        
+        var paddlePos;
+       
+        window.addEventListener('keydown', function(e){
+            
+            if(event.keyCode == 37){//left key
+                      
+                if(paddlePos > 0){
+                    paddlePos--;
+                    let tempPos = 1+(9.5*paddlePos);
+                    $('#paddle').animate({
+                        left: tempPos+'vw'
+                    }, 750); 
+                }    
+            }
+            
+            
+            if(event.keyCode == 39){//right key
+                if(paddlePos < 5){
+                    paddlePos++;
+                    let tempPos = 1+(9.5*paddlePos);
+                    $('#paddle').animate({
+                        left: tempPos+'vw'
+                    }, 750);                    
+                }
+            }
+        });
+        
+        //--end paddle controls
+        
+        
+        
+		function setBoxes(){ //for setting the css of the boxes. Should create a way to instance and object pool enough items. 
+            // limit the max number of active falling boxes at a time, max of 3 across all columns
+			let iVal = 0;
+			$('.fall').each(function(){
+                wordBoxes.push($(this));
+				$(this).css({
+					width: '9vw',
+					height: '3vw',
+					position: 'absolute', 
+					border: '1px solid black',
+					background: 'yellow',
+					left: 1+(9.5*iVal) +'vw',
+					'border-radius': '5px',
+                    top: '-5vw'
+					
+				});
+				iVal++;
+            
+			});
+		}
+		
+        function sendBoxes(){
+            //queue a box 
+                //set the data for the box
+            //wait for the rate timer
+			//run topToBot                       
+            let randomGrab = Math.floor(Math.random() * wordBoxes.length);     
+			wordBoxes[randomGrab].css({top: '0'}); //reset at the top
+
+            wordBoxes[randomGrab].data(mythWords[randomGrab]);//assign data
+			console.log(wordBoxes[randomGrab].children(0).text());
+			//!! need an escape for undefined
+			wordBoxes[randomGrab].children(0).text(mythWords[randomGrab].name);
+			wordBoxes[randomGrab].css({display: 'block'})
+            topToBot(wordBoxes[randomGrab]);         
+        }
+		
+		
+		//ensure animation goes from top to bottom of gamespace
+		function topToBot(elem){
+			
+			var bodyHeight = $('#gamespace').height();
+			var elemOffset = elem.offset().top;
+			var fullLength = bodyHeight;
+	
+
+
+			$(elem).animate({
+				top: fullLength			
+			}, 3000, 'linear', function(){				
+				
+				/*probs don't need this but sweet little loop here
+                //might want to add a delay
+				elem.css({
+					top: '0'
+				});
+				
+				elem.data("val").touched = false; //reset a data value so we can reuse this fool
+                
+                    //add if statement to control whether we loop again. 
+				topToBot(elem);
+				    end of sweet little loop*/
+			});
+			
+			var tempLoop = setInterval(function(){
+				compare($('#paddle'), elem);
+			}, 150);
+			
+		}
+		
+		//jQuery - mine
+		function compare(obj1, obj2){			
+			var oneLeft = obj1.offset().left;
+			var oneRight = oneLeft + obj1.width();
+			var oneTop = obj1.offset().top;
+			var oneBot = oneTop + obj1.height();			
+			
+			var twoLeft = obj2.offset().left;
+			var twoRight = twoLeft + obj2.width();
+			var twoTop = obj2.offset().top;
+			var twoBot = twoTop + obj2.height();				
+	
+			if(oneBot > twoTop && oneTop < twoBot){
+				if(oneLeft < twoRight && oneRight > twoLeft){
+					//console.log('collision ');	
+					
+					//only touch it once
+					if(!obj2.data().caught){
+						console.log(obj2.data());
+						obj2.data().caught = true;
+                        obj2.css({display: 'none'});
+					}
+				}
+			}			
+		}
+		
+		
+
+		
+		function comparePositions(p1, p2){
+			var x1 = p1[0] < p2[0] ? p1 : p2;
+			var x2 = p1[0] < p2[0] ? p2: p1;
+			return x1[1] > x2[0] || x1[0] === x2[0] ? true : false;
+		}
+		
+		
+      
+        
+        //follow mouse pointer in container script.
+			/*
+		   var mouseX=0, mouseY=0, limitX = $('#gamespace').width(), limitY=$('#gamespace').height();
+		   var xp = 0, yp = 0;
+        
+		   $(document).on('mousemove', function(e){
+				var offset = $('#gamespace').offset();
+				mouseX = Math.min(e.pageX - offset.left, limitX);
+				mouseY = Math.min(e.pageY - offset.top, limitY);
+				if(mouseX < 0) mouseX = 0;
+				if(mouseY < 0) mouseY = 0;		
+		   });
+	   
+	   
+		   var loop = setInterval(function(){
+				var point = document.getElementById('pointer');
+				xp += (mouseX - xp)/10;
+				yp += (mouseY - yp)/10;
+				$('#pointer').css({left:xp, top:yp});
+
+				var twoBox = document.getElementById('two');
+				//compare($('#pointer'), $('#one'));
+
+		   }, 20);
+		   */
+	   
+	   
+	  
+    </script>
+    
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>  
+ </html>

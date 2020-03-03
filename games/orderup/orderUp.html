@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Custom Style -->
+	<link rel="stylesheet" type="text/css" href="../boot-style.css">
+	<link rel="stylesheet" type="text/css" href="order-style.css">
+    <title>Order Up</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  </head>
+  <body>
+  
+    
+	
+	<div class="container-fluid">
+	
+        <div class="row" id="header">
+            <h1>Order Up</h1>
+        </div>
+        <div class="row">   		
+			<div id="gamespace">		
+				<br>
+				<span id="order">
+					<h2>Order Name</h2>
+                    <p></p>
+				</span>
+				
+				<p id="indicator"></p>
+				<div class="modifier" id="mod1">
+					Modifier 1<br>Cook
+				</div>
+				<div class="modifier" id="mod1">
+					Modifier 2<br>Chop
+				</div>
+				<div class="modifier" id="mod1">
+					Modifier 3<br>Mix
+				</div>
+				<div class="botButtons">
+					<ul>
+						<li class="components"></li>
+						<li class="components"></li>
+						<li class="components"></li>
+						<li class="components"></li>
+						<li class="components"></li>
+					</ul>
+				</div>
+	
+			</div>
+			<div class="buffer" style="background-color:brown">
+				<div class="field">
+					<p>Add Order</p>
+					<p>Name: <input id="order_name"></p>
+					<p>Component 1: <select class="orderComps" id="selectOne"><option>Choose Component</option></select><br>Required Mod <select id="selectModOne"><option>Mod 1</option><option>Mod 2</option><option>Mod 3</option></select></p>
+					
+					<p>Component 2: 
+						<select class="orderComps" id="selectTwo"><option>Choose Component</option></select><br>Required Mod <select id="selectModTwo"><option>Mod 1</option><option>Mod 2</option><option>Mod 3</option></select>
+					</p>
+					<p>Component 3: 
+						<select class="orderComps" id="selectThree"><option>Choose Component</option></select><br>Required Mod <select id="selectModOne"><option>Mod 1</option><option>Mod 2</option><option>Mod 3</option></select>
+					</p>
+					<p>Component 4: 
+						<select class="orderComps" id="selectFour"><option>Choose Component</option></select><br>Required Mod <select id="selectModOne"><option>Mod 1</option><option>Mod 2</option><option>Mod 3</option></select>
+					</p>				
+					<button type="button" onclick="addOrder()">Add order</button>
+				</div>
+			</div>
+			<div class="buffer" style="background-color:brown">
+				<div class="field">
+					<p>Add Component</p>
+					<p>Name: <input id="comp_name"></p>
+					<p>Description: <input id="comp_desc"></p>				<!--	
+					<p>+ Modifier1 name: <input id="mod1-name"></p>
+					<p>+ Modifier2 name: <input id="mod2-name"></p>
+					<p>+ Modifier3 name: <input id="mod3-name"></p>
+                    -->
+					<button type="button" onclick="getCompValues();">Add</button>
+				</div>
+			</div>
+        </div>
+
+
+	</div>
+    
+	<script>
+		
+        var workspace = new Array(); //needed?
+		var components = new Array();
+		var ordersList = new Array();
+		
+		//Order Object 
+			
+		class orders {	
+			constructor(name){
+				this.name = name;
+				this.components = [];
+			}			
+			
+			addComponent(comp, modVal){
+				comp.setRequiredMod(modVal);
+				this.components.push(comp);
+			}
+		}
+		
+		
+		class component{
+            //required, used for the order to set the required value for a component recipe
+            //modVal, the actual value 0,1,2 of the component after modded
+            //modded, has this been modded or not
+			constructor(name, description){
+				this.name = name;
+				this.description = description;		
+				this.mods = [];
+                this.modded = false;
+			}			
+			addMod(modName){				
+				this.mods.push(modName);								
+			}	
+			setMod(val){ //the modifer tool should have a numeric value that will move through the array of the available modifiers for the component				
+				if(!modded){
+                     this.name += " [Mod "+ val + "] ";
+				    this.modded = true;
+                    this.modVal = val;
+                }
+               
+			}	
+                   
+			setRequiredMod(val){
+				this.required = val;
+			}
+		}
+	
+	
+		//have a workspace for modded ingredients, maybe limit this to 5 
+
+		
+		function addToWorkspace(obj){
+			if(workspace.length < 5){
+				workspace.push(obj);
+			}else{
+				console.log('workspace full');
+			}
+		}	
+			
+		var ing = new component('flour', 'finely ground and good for many recipes');		
+		
+		var test = new orders('tortilla');
+		test.addComponent(ing);
+	
+		//active testing/////////////////---------------------------
+		
+		window.addEventListener('keydown', function(event){
+			if(event.keyCode == 32){ //space
+				populateComponents();
+			}
+			if(event.keyCode == 49){ //1
+				orderComponents();
+			}			
+		});
+		
+		
+		$(window).on('load', function(){
+			populateTicket(test);
+		});
+		
+		
+		function populateComponents(){
+			//[issue] need to not double populate
+			let num = 0;
+			$('.components').each(function(){
+                $(this).text('');
+				if(num < components.length){
+					$(this).append('<p>' + components[num].name + '</p>');
+					$(this).data(components[num]);
+					num++;
+				}
+			});
+		}
+		
+		
+		function populateTicket(order){ //adds text to the order section
+			$('#order > h2').text(order.name); //set the name			
+			
+			for(i=0; i<order.components.length; i++){				
+				$('#order > p').append( ""+ order.components[i].name + " - " + order.components[i].description + "");
+			}		
+		}
+		
+		//select a component 
+		$('.components').click(function(){
+			console.log($(this).data());
+		});
+		
+		
+		//movement stuph
+		var selectedComp;
+	
+		
+		$('.component').on('click', function(){
+			selectedComp = $(this);				
+			console.log(selectedComp);
+		});
+		
+		
+	</script>
+	
+	<script src="order-input.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>  
+ </html>
