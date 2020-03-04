@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Custom Style -->
 	<link rel="stylesheet" type="text/css" href="wordHero-style.css">
-    <title>Word Hero</title>
+    <title>Sideways Hero</title>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
   </head>
@@ -19,7 +19,7 @@
 	
 	<div class="container-fluid">
         <div class="row" id="header">
-            <h1>Word Hero</h1>
+            <h1>Sideways Hero</h1>
         </div>
         <div class="row">   
 			<div class="buffer">
@@ -51,13 +51,7 @@
 					<p>Test</p>
                 </div>
 
-                <div class="fall">
-					<p>Test</p>
-                </div>
-
-                <div class="fall">
-					<p>Test</p>
-                </div>
+              
 
                 <!--<div id='pointer'>
                 </div>-->
@@ -118,13 +112,9 @@
 				touched: false
 				});
 			setBoxes();
-			/*Maybe this sucks?
-			dropboxes = setInterval(function(){
-				sendBoxes();
-			}, 1500);
-           */
 
-			sendWords();
+
+			//sendWords();
 		});
 		
        //Paddle controls
@@ -168,9 +158,9 @@
 					position: 'absolute', 
 					border: '1px solid black',
 					background: 'yellow',
-					left: 1+(9.5*iVal) +'vw',
+					top: 11+(7.5*iVal) +'vw',
 					'border-radius': '5px',
-                    top: '-5vw'					
+                    right: '0px',
 				});
 				iVal++;            
 			});
@@ -180,23 +170,17 @@
 		function sendWords(){
 			setTimeout(function(){
 				let randomGrab = Math.floor(Math.random() * wordBoxes.length); //this is the div
-				let randomValue = Math.floor(Math.random()*words.length); //this is the data
-				console.log('rand val ' + randomValue);
-
+				let randomValue = Math.floor(Math.random()*words.length); //this is the datas
 				
-				if(activeValues.includes(randomValue)){
-					sendWords();
-				}else{
-					activeValues.push(randomValue);
-					wordBoxes[randomGrab].css({top: '0'}); //reset at the top
-					wordBoxes[randomGrab].data(words[randomValue]);//assign data		
-					wordBoxes[randomGrab].children(0).text(words[randomValue].name);
-					wordBoxes[randomGrab].css({display: 'block'})
-					topToBot(wordBoxes[randomGrab]);				
-					sendWords();
-				}
-				
-			
+				activeValues.push(randomValue);
+				wordBoxes[randomGrab].css({right: '0'}); //reset at the top
+				wordBoxes[randomGrab].data(words[randomValue]);//assign data		
+				wordBoxes[randomGrab].children(0).text(words[randomValue].name);
+				wordBoxes[randomGrab].css({display: 'block'})
+							
+				sideToSide(wordBoxes[randomGrab]);
+				sendWords();
+						
 			}, 1000);
 		}
 
@@ -212,6 +196,9 @@
             let randomGrab = Math.floor(Math.random() * wordBoxes.length); 
 			let randomValue = Math.floor(Math.random()*words.length); //value for a list of words
 
+
+
+
 			if(activeValues.includes(randomValue)){
 				sendBoxes();
 			}else if(activeValues.length < words.length){
@@ -222,24 +209,31 @@
 				wordBoxes[randomGrab].css({display: 'block'})
 				topToBot(wordBoxes[randomGrab]);      
 			} else{
+			
 				return;
 			}
         }
 //********END MOTHBALL		
 		
+		function sideToSide(elem){
+			var gameWidth = $('#gamespace').width();
+			elem.css({})
+			$(elem).animate({
+				right: gameWidth
+			}, 3000, 'linear');
+		}
+
 		//ensure animation goes from top to bottom of gamespace
 		function topToBot(elem){
 			
 			var bodyHeight = $('#gamespace').height();
 			var elemOffset = elem.offset().top;
-			elem.data().caught = false;
+			elem.data().caught = false;	//// do this here?! or in the sendBoxes????
 			var fullLength = bodyHeight;
-	
-
 
 			$(elem).animate({
 				top: fullLength			
-			}, 3000, 'linear', function(){				
+			}, 3000, 'linear', function(){
 				
 				/*probs don't need this but sweet little loop here
                 //might want to add a delay
@@ -274,8 +268,7 @@
 	
 			if(oneBot > twoTop && oneTop < twoBot){
 				if(oneLeft < twoRight && oneRight > twoLeft){
-					//console.log('collision ');	
-					
+					//console.log('collision ');						
 					//only touch it once
 					if(!obj2.data().caught){
 						if(obj2.data().valid){
@@ -288,9 +281,6 @@
 				}
 			}			
 		}
-		
-		
-
 		
 		function comparePositions(p1, p2){
 			var x1 = p1[0] < p2[0] ? p1 : p2;
