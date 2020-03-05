@@ -19,7 +19,7 @@
 	
 	<div class="container-fluid">
         <div class="row" id="header">
-            <h1>Sideways Hero</h1>
+            <h1> Sideways Hero</h1>
         </div>
         <div class="row">   
 			<div class="buffer">
@@ -28,27 +28,21 @@
                 <div id="score">
                     <p id="number">0000</p>
                 </div>
-            <!--
-                <div id="one">
-                </div>
 
-                <div id="two">
-                </div>
-            -->
-                <div class="fall">
-					<p>Test</p>
+                <div class="fall">					
+					<p><img src='#' /> Test</p>
                 </div>
 
                 <div class="fall">
-					<p>Test</p>
+					<p><img src='#' /> Test</p>
                 </div>
 
                 <div class="fall">
-					<p>Test</p>
+					<p><img src='#' /> Test</p>
                 </div>
 
                 <div class="fall">
-					<p>Test</p>
+					<p><img src='#' /> Test</p>
                 </div>
 
               
@@ -57,8 +51,12 @@
                 </div>-->
 
                 <div id='paddle'>
-					<img src='art/cole.gif' />
+					<img src='art/cole-run.gif' />
+					<!--css sprites
+						<p id="char"></p>
+					-->
                 </div>
+				
 
 			</div>
 			<div class="buffer">
@@ -99,47 +97,47 @@
         var rate; //how often are we sending a wordBox down
         var dropBoxes; //interval variable for dropping the words
 		
+
+
 		$(window).on('load', function(){
-            paddlePos = 0;
-	
-		//it doesn't matter, nona this matters
-			$('#one').data("val", {
-				name: 'Achilles',
-				touched: false
-				});
-			$('#two').data("val",{
-				name: 'Ajax',
-				touched: false
-				});
+            paddlePos = 0;	
+		
+			
 			setBoxes();
 
+	
 
 			//sendWords();
 		});
 		
+
        //Paddle controls
         
         var paddlePos; //int to hold the position of the paddle
        
         window.addEventListener('keydown', function(e){            
-            if(event.keyCode == 37){//left key                      
+            if(event.keyCode == 40){//down key         
+				
                 if(paddlePos > 0){
                     paddlePos--;
-                    let tempPos = 1+(9.5*paddlePos);
+                    let tempPos = 2+(7.5*paddlePos);
                     $('#paddle').animate({
-                        left: tempPos+'vw'
+                        bottom: tempPos+'vw'
                     }, 250); 
                 }    
+				console.log("down key?" + paddlePos);
             }            
             
-            if(event.keyCode == 39){//right key
-                if(paddlePos < 5){
+            if(event.keyCode == 38){//up key
+			
+                if(paddlePos < 3){
                     paddlePos++;
-                    let tempPos = 1+(9.5*paddlePos);
+                    let tempPos = 2+(7.5*paddlePos);
                     $('#paddle').animate({
-                        left: tempPos+'vw'
+                        bottom: tempPos+'vw'
                     }, 250);                    
                 }
+				console.log("up key?" + paddlePos);
             }
         });
         
@@ -153,18 +151,20 @@
 			$('.fall').each(function(){
                 wordBoxes.push($(this));
 				$(this).css({
-					width: '9vw',
+					width: 'max-content',
 					height: '3vw',
 					position: 'absolute', 
 					border: '1px solid black',
 					background: 'yellow',
-					top: 11+(7.5*iVal) +'vw',
+					top: 12+(7.5*iVal) +'vw',
 					'border-radius': '5px',
                     right: '0px',
 				});
 				iVal++;            
 			});
 		}
+
+
 
 		var activeValues = []; // to avoid duplicates when sending words
 		function sendWords(){
@@ -233,20 +233,7 @@
 
 			$(elem).animate({
 				top: fullLength			
-			}, 3000, 'linear', function(){
-				
-				/*probs don't need this but sweet little loop here
-                //might want to add a delay
-				elem.css({
-					top: '0'
-				});
-				
-				elem.data("val").touched = false; //reset a data value so we can reuse this fool
-                
-                    //add if statement to control whether we loop again. 
-				topToBot(elem);
-				    end of sweet little loop*/
-			});
+			}, 3000, 'linear');
 			
 			var tempLoop = setInterval(function(){
 				compare($('#paddle'), elem);

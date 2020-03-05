@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\games",
-    "\\games\\wordhero"
+    "\\games\\wordhero",
+    "\\games\\wordhero\\art"
   ],
-  "SelectedNode": "\\games\\wordhero\\wordHero-style.css",
+  "SelectedNode": "\\games\\wordhero\\wordHero.html",
   "PreviewInSolutionExplorer": false
 }

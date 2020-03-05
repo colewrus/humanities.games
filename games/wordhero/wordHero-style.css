@@ -53,7 +53,7 @@
 }
 
 #paddle{
-	width: 9vw;
+	width: 5vw;
 	height: 4vw;
 	position: absolute;
 	bottom: 1.5vh;
@@ -62,9 +62,19 @@
 }
 
 #paddle img{
+	margin: 0 auto;
+	display: block;
+	width: 4vw;
+	height: 4vw;
+}
+
+/*css sprites*/
+#char{
 	margin-left: 25%;
-	width: 5vw;
-	height: 5vw;
+	height: 160px;
+	width: 160px;	
+	background: url('art/cole-spriteSheet.png') 0px 0px;
+	zoom: 50%;
 }
 
 #score{
@@ -85,6 +95,17 @@
 }
 
 
+.fall {
+	overflow: hidden;
+}
 
+.fall p{
+	padding: 0 .5vw;
+}
 
-
+.fall p img{
+	width: 1vw;
+	height 1vw;
+	display: inline-block;
+	padding: .1vw;
+}
