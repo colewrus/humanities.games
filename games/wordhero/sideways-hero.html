@@ -77,10 +77,11 @@
             {name: 'Ajax', category: 'greek-myth', type: 'hero', valid: true, caught: false},
             {name: 'Odin', category: 'norse-myth', type:'god', valid: true, caught: false},
             {name: 'Anubis', category: 'egypt-myth', type: 'god', valid: true, caught: false },
-            {name: 'Gandalf', category: 'fantasy', type:'hero', valid:false, caught: false},
+            {name: 'Gandalf', category: 'fiction', type:'hero', valid:false, caught: false},
             {name: 'Mjolnir', category: 'norse-myth', type:'item', valid: true, caught: false},
-			{name: 'Voldemort', category: 'fantasy', type:'character', valid: false, caught: false},
+			{name: 'Voldemort', category: 'fiction', type:'character', valid: false, caught: false},
 			{name: 'Katniss Everdeen', category: 'fiction', type:'hero', valid:false, caught: false},
+            {name: 'Harry Potter', category: 'fiction', type: 'hero', valid: false, caught: false}
         ]
         
         //Evaluation tools
@@ -106,8 +107,10 @@
 			setBoxes();
 
 	
-
-			//sendWords();
+            
+			setPossibleValues(words, possibleValues);
+           
+            sendWords();
 		});
 		
 
@@ -117,7 +120,6 @@
        
         window.addEventListener('keydown', function(e){            
             if(event.keyCode == 40){//down key         
-				
                 if(paddlePos > 0){
                     paddlePos--;
                     let tempPos = 2+(7.5*paddlePos);
@@ -125,11 +127,9 @@
                         bottom: tempPos+'vw'
                     }, 250); 
                 }    
-				console.log("down key?" + paddlePos);
             }            
             
             if(event.keyCode == 38){//up key
-			
                 if(paddlePos < 3){
                     paddlePos++;
                     let tempPos = 2+(7.5*paddlePos);
@@ -137,7 +137,11 @@
                         bottom: tempPos+'vw'
                     }, 250);                    
                 }
-				console.log("up key?" + paddlePos);
+            }
+            
+            if(event.keyCode == 32){//space
+               
+                console.log(shuffle(wordBoxes));
             }
         });
         
@@ -159,68 +163,81 @@
 					top: 12+(7.5*iVal) +'vw',
 					'border-radius': '5px',
                     right: '0px',
+                    display: 'none'
 				});
 				iVal++;            
 			});
 		}
 
 
-
+        var activeBoxes = [];
 		var activeValues = []; // to avoid duplicates when sending words
 		function sendWords(){
 			setTimeout(function(){
 				let randomGrab = Math.floor(Math.random() * wordBoxes.length); //this is the div
-				let randomValue = Math.floor(Math.random()*words.length); //this is the datas
 				
-				activeValues.push(randomValue);
-				wordBoxes[randomGrab].css({right: '0'}); //reset at the top
-				wordBoxes[randomGrab].data(words[randomValue]);//assign data		
-				wordBoxes[randomGrab].children(0).text(words[randomValue].name);
-				wordBoxes[randomGrab].css({display: 'block'})
-							
-				sideToSide(wordBoxes[randomGrab]);
-				sendWords();
-						
+                if(!activeBoxes.includes(wordBoxes[randomGrab])){
+                          
+                    let randomValue = shuffle(possibleValues);
+
+                    activeBoxes.push(wordBoxes[randomGrab]);
+                    activeValues.push(randomValue);
+
+                    wordBoxes[randomGrab].css({right: '0'}); //reset at the top
+                    wordBoxes[randomGrab].data(words[randomValue]);//assign data
+                    wordBoxes[randomGrab].children(0).text(words[randomValue].name);
+                    wordBoxes[randomGrab].css({display: 'block'})
+                    cullActive(activeValues, possibleValues, 3);
+
+                    sideToSide(wordBoxes[randomGrab]);
+                }else{
+                    
+                }
+                
+                sendWords();
 			}, 1000);
 		}
-
-
-//****MOTHBALL
-		
-	
-        function sendBoxes(){
-            //queue a box 
-                //set the data for the box
-            //wait for the rate timer
-			//run topToBot                       
-            let randomGrab = Math.floor(Math.random() * wordBoxes.length); 
-			let randomValue = Math.floor(Math.random()*words.length); //value for a list of words
-
-
-
-
-			if(activeValues.includes(randomValue)){
-				sendBoxes();
-			}else if(activeValues.length < words.length){
-				activeValues.push(randomValue);
-				wordBoxes[randomGrab].css({top: '0'}); //reset at the top
-				wordBoxes[randomGrab].data(words[randomValue]);//assign data		
-				wordBoxes[randomGrab].children(0).text(words[randomValue].name);
-				wordBoxes[randomGrab].css({display: 'block'})
-				topToBot(wordBoxes[randomGrab]);      
-			} else{
-			
-				return;
-			}
+        
+        function cullActive(arrSource, arrDest, val){
+            if(arrSource.length > val){
+                let _shift = arrSource.shift();
+                arrDest.push(_shift);
+            }
         }
-//********END MOTHBALL		
+        
+        var possibleValues = [];
+        var possibleBoxes = [];
+        function setPossibleValues(source, destination){
+            for(i=0; i<source.length; i++){
+                destination.push(i);
+            }
+            
+        }
+
+        function shuffle(o){
+            for(i=o.length; i>-1; i--){
+                var rand = o.splice(Math.floor(Math.random() * (i)), 1)[0];
+                return rand;
+            }
+        }
 		
+		  
 		function sideToSide(elem){
 			var gameWidth = $('#gamespace').width();
 			elem.css({})
 			$(elem).animate({
 				right: gameWidth
-			}, 3000, 'linear');
+			}, 3000, 'linear', function(){
+                //make it available
+                if(activeBoxes.includes(elem)){
+                    let _index = activeBoxes.indexOf(elem);
+                    activeBoxes.splice(_index, 1);
+                }
+            });
+            
+            let tempLoop = setInterval(function(){
+				compare($('#paddle'), elem);
+			}, 150);
 		}
 
 		//ensure animation goes from top to bottom of gamespace
@@ -235,7 +252,7 @@
 				top: fullLength			
 			}, 3000, 'linear');
 			
-			var tempLoop = setInterval(function(){
+			let tempLoop = setInterval(function(){
 				compare($('#paddle'), elem);
 			}, 150);
 			
@@ -255,13 +272,16 @@
 	
 			if(oneBot > twoTop && oneTop < twoBot){
 				if(oneLeft < twoRight && oneRight > twoLeft){
-					//console.log('collision ');						
+									
 					//only touch it once
 					if(!obj2.data().caught){
 						if(obj2.data().valid){
 							score += 50;
 							$('#score > p').text(score.toString());
-						}
+						}else{
+                            score -= 25;
+                            $('#score > p').text(score.toString());
+                        }
 						obj2.data().caught = true;
                         obj2.css({display: 'none'});
 					}
