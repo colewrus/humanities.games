@@ -1,75 +1,5 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Custom Style -->
-	<link rel="stylesheet" type="text/css" href="wordHero-style.css">
-    <title>Sideways Hero</title>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
-  </head>
-  <body>
-  
-    
-	
-	<div class="container-fluid">
-        <div class="row" id="header">
-            <h1> Sideways Hero</h1>
-        </div>
-        <div class="row">   
-			<div class="buffer">
-			</div>
-			<div id="gamespace">		
-                <div id="score">
-                    <p id="number">0000</p>
-                </div>
-
-                <div class="fall">					
-					<p><img src='#' /> Test</p>
-                </div>
-
-                <div class="fall">
-					<p><img src='#' /> Test</p>
-                </div>
-
-                <div class="fall">
-					<p><img src='#' /> Test</p>
-                </div>
-
-                <div class="fall">
-					<p><img src='#' /> Test</p>
-                </div>
-
-              
-
-                <!--<div id='pointer'>
-                </div>-->
-
-                <div id='paddle'>
-					<img src='art/cole-run.gif' />
-					<!--css sprites
-						<p id="char"></p>
-					-->
-                </div>
-				
-
-			</div>
-			<div class="buffer">
-			</div>
-        </div>
-
-	
-	</div>
-    
-    <script> 
-		//falling objects that are words that you catch, they need to meet certain requirements. That can pop up one at a time below or be a part of a quest to catch X number of [prepositions, nouns, country names, historical events, authors, book titles]
-		
-        
+// JavaScript source code
+ 
 		var gameRoot = '';
 
         //how do we determine that the word is correct? 
@@ -294,14 +224,4 @@
 			var x1 = p1[0] < p2[0] ? p1 : p2;
 			var x2 = p1[0] < p2[0] ? p2: p1;
 			return x1[1] > x2[0] || x1[0] === x2[0] ? true : false;
-		}  
-	   
-	  
-    </script>
-    
-    
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>  
- </html>
+		} 
