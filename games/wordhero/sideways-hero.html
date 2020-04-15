@@ -175,8 +175,6 @@
 		}
 
 
-        var activeBoxes = [];
-		var activeValues = []; // to avoid duplicates when sending words
 
 		function sendWords(){
 			setTimeout(function(){
@@ -198,8 +196,7 @@
                     sideToSide(wordBoxes[randomGrab]);
                 }else{
                     
-                }
-                
+                }                
                 sendWords();
 			}, 1000);
 		}
@@ -211,8 +208,6 @@
             }
         }
         
-        var possibleValues = [];
-        var possibleBoxes = [];
 
         function setPossibleValues(source, destination){
             for(i=0; i<source.length; i++){
