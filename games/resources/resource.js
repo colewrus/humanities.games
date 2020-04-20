@@ -12,7 +12,7 @@ var resources = [
 
 var turns = [];
 
-var testTurn = new turnObj(3,"scenario text, good huh?");
+var testTurn = new turnObj(4,"scenario text, good huh?");
 testTurn.pushAdd("Wealth", 4, 0); //c1
 testTurn.pushSub("Goods", 8, 0);
 testTurn.pushAdd("Food", 10, 1); //c2
@@ -33,25 +33,29 @@ $(document).ready(function(){
 	var maxTurns = 10;
 	var finalTurn = false;
 
+	
 
 	populateResources(resources);
 
 	$('.resource-card').each(function(){
 		cards.push($(this));		
 		$(this).hide();
+	
 	})
 
 
-	populateCards(2);
-	assignData();
+	startTurn(turns[0]);
+	
 	//click listeners 
 	$('.resource-card').click(function(){
+		resourceClick($(this));
 		//increment the turn counter
 		if(finalTurn){
 			console.log("game over");
 		}else if(turnCounter < maxTurns-1 && !finalTurn){
-			turnCounter++;
+			turnCounter++;			
 			$('#turn-counter').text('Turn: ' + turnCounter);
+			
 			//check for turn-based special events
 		}else{
 			turnCounter++;
@@ -62,7 +66,7 @@ $(document).ready(function(){
 		//end turn inrement
 
 		
-		let myObj =	$(this).data("myTurn"); //grab the object we attached to the div data
+		//let myObj =	$(this).data("myTurn"); //grab the object we attached to the div data
 	
 		//myObj.returnValues();
 				//this is where we will just run the add/subtract
@@ -84,37 +88,60 @@ $(document).ready(function(){
 var res1,res2,res3,res4;
 
 
+
 function resourceAdd(obj, val){ //object to read what is assigned to the object
+
 	for(i=0; i<resources.length; i++){		
-		if(resources[i].name == obj.data().name){
+		if(resources[i].name == obj.name){
 			resources[i].value += val;			
 		}
 	}	
+	populateResources(resources);
 }
 
-function resourceSubtract(n, val){//n to read a name as a string
-	for(i=0; i<resources.length; i++){		
-		if(resources[i].name == n){
+function resourceSubtract(obj, val){//n to read a name as a string
+	for(i=0; i<resources.length; i++){	
+		if(resources[i].name === obj.name){
 			resources[i].value -= val;			
 		}
 	}	
+	populateResources(resources);
 }
 
 
 function populateCards(n){//n=number of cards, 
 	for(i=0; i<n; i++){
 		cards[i].show();
-	}
-	
+		cards[i].data("card", i);
+	}	
 }
 
+function clearCards(){
+	for(i=0; i<cards.length; i++){
+		cards[i].hide();
+	}
+}
+
+function startTurn(obj){
+
+	populateCards(obj.number);	
+	
+	let i = (obj.subArray.length > obj.addArray.length) ? obj.subArray.length : obj.addArray.length;
+	
+	//populate the text
+	//for each item in the add array 
+	for(ad=0;ad<obj.addArray.length;ad++){
+		let v = obj.addArray[ad].card;
+		cards[v].text('+' + obj.addArray[ad].val + ' ' + obj.addArray[ad].name);
+	}
+
+	for(sb=0; sb < obj.subArray.length; sb++){
+		let v = obj.subArray[sb].card;		
+		cards[v].append("<br>" + ' -' + obj.subArray[sb].val + '  ' + obj.subArray[sb].name);
+	}
+}
 
 function turnObj (nCards, sceneText){
-	//number of cards
-	//scenario text
-	//array of functions to perform
-		//actives = ["add-resource", "subtract-resource", "subtract-resource"]
-			//should have a function that writes it to the obj
 	this.number = nCards;
 	this.scenario = sceneText;
 	this.addArray = [];
@@ -135,15 +162,41 @@ function turnObj (nCards, sceneText){
 	}
 }
 
-//set turn 
-//populate number of cards 
-//give each card instructions 
-	//Write out what they do
-//print scenario text 
+
+
+function resourceClick(e){
+	
+	//for all the add arrays
+	turns[0].addArray.forEach((element) => {
+		if(element.card === e.data("card")){
+			resourceAdd(element, element.val);
+		}
+	});
 
 
 
 
+	turns[0].subArray.forEach((element) => {		
+		if(element.card === e.data("card")){
+			resourceSubtract(element, element.val);
+		}
+	})
+
+}
+
+
+
+function matchResource(_name, _array){
+	for(i=0; i<_array.length; i++){		
+		if(_array[i].name === _name){
+			return array[i];
+		}		
+	}
+	
+}
+
+
+//4-15 needed? Might not assign data to object but instad just check the turn and use the
 function assignData(){ //give card some data
 	//needs to parse information for the turn, 
 	//turn has a c
