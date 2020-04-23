@@ -12,25 +12,73 @@ var resources = [
 
 var turns = [];
 
-var testTurn = new turnObj(4,"scenario text, good huh?");
-testTurn.pushAdd("Wealth", 4, 0); //c1
-testTurn.pushSub("Goods", 8, 0);
-testTurn.pushAdd("Food", 10, 1); //c2
-testTurn.pushSub("Wealth", 5, 1);
-testTurn.pushAdd("Population", 4, 2); //c3
-testTurn.pushSub("Goods", 2, 2);
-testTurn.pushSub("Food", 2, 2);
-testTurn.pushAdd("Goods", 5, 3); //c4
-testTurn.pushSub("Wealth", 10, 3);
+var turn0 = new turnObj(4,"Welcome to the Kingdom");
+turn0.pushAdd("Wealth", 4, 0); //c1
+turn0.pushSub("Goods", 8, 0);
+turn0.pushAdd("Food", 10, 1); //c2
+turn0.pushSub("Wealth", 5, 1);
+turn0.pushAdd("Population", 4, 2); //c3
+turn0.pushSub("Goods", 2, 2);
+turn0.pushSub("Food", 2, 2);
+turn0.pushAdd("Goods", 5, 3); //c4
+turn0.pushSub("Wealth", 10, 3);
 
-turns.push(testTurn);
+turns.push(turn0);
+
+var turn1 = new turnObj(4, "Grow and be ready for any event");
+turn1.pushAdd("Wealth", 4, 0);
+turn1.pushSub("Goods", 8, 0);
+turn1.pushAdd("Food", 10, 1);
+turn1.pushSub("Wealth", 5, 1);
+turn1.pushAdd("Population", 4, 2);
+turn1.pushSub("Goods", 2, 2);
+turn1.pushSub("Food", 2, 2);
+turn1.pushAdd("Goods", 5, 3);
+turn1.pushSub("Wealth", 10, 3);
+turns.push(turn1);
+
+
+var turn2 = new turnObj(2, "A famine has struck");
+turn2.pushAdd("Wealth", 1, 0);
+turn2.pushSub("Goods", 10, 0);
+turn2.pushSub("Food", 2, 0);
+turn2.pushSub("Population", 10, 0);
+turn2.pushAdd("Population", 0, 1);
+turn2.pushSub("Food", 10, 1);
+turn2.pushSub("Goods", 10, 1);
+turns.push(turn2);
+
+var turn3 = new turnObj(3, "We must hold together and survive");
+turn3.pushAdd("Wealth", 2, 0);
+turn3.pushSub("Goods", 8, 0);
+turn3.pushSub("Population", 3, 0);
+turn3.pushAdd("Food", 5, 1);
+turn3.pushSub("Wealth", 8, 1);
+turn3.pushSub("Population", 1, 1);
+turn3.pushAdd("Population", 1, 2);
+turn3.pushSub("Food", 10, 2);
+turn3.pushSub("Goods", 2, 2);
+turns.push(turn3);
+
+var turn4 = new turnObj(4, "Now is our time to thrive");
+turn4.pushAdd("Wealth", 4, 0);
+turn4.pushSub("Goods", 8, 0);
+turn4.pushAdd("Food", 10, 1);
+turn4.pushSub("Wealth", 5, 1);
+turn4.pushAdd("Population",  4, 2);
+turn4.pushSub("Goods", 2, 2);
+turn4.pushSub("Food", 2, 2);
+turn4.pushAdd("Goods", 5, 3);
+turn4.pushSub("Wealth", 10, 3);
+turns.push(turn4);
+
 
 $(document).ready(function(){
 	
 
 	var turnCounter = 0;
 	var turnEventTimers = [5, 7, 9];
-	var maxTurns = 10;
+	var maxTurns = turns.length;
 	var finalTurn = false;
 
 	
@@ -44,24 +92,35 @@ $(document).ready(function(){
 	})
 
 
-	startTurn(turns[0]);
+	startTurn(turns[turnCounter]);
 	
 	//click listeners 
 	$('.resource-card').click(function(){
-		resourceClick($(this));
+	
 		//increment the turn counter
-		if(finalTurn){
-			console.log("game over");
-		}else if(turnCounter < maxTurns-1 && !finalTurn){
-			turnCounter++;			
+		if (finalTurn) {
+			resourceClick($(this));
+			clearCards();
 			$('#turn-counter').text('Turn: ' + turnCounter);
-			
+			console.log("game over");
+		}else if(turnCounter < maxTurns-2 && !finalTurn){						
+			$('#turn-counter').text('Turn: ' + turnCounter);
+			if (turns[turnCounter] != undefined) {
+				turnCounter++;			
+				resourceClick($(this));
+				startTurn(turns[turnCounter]);				
+			} else {
+				console.log("not clear");
+            }
+		
 			//check for turn-based special events
 		}else{
 			turnCounter++;
 			console.log("final turn");
 			$('#turn-counter').text('Turn: ' + turnCounter);
 			finalTurn = true;
+			resourceClick($(this));
+			startTurn(turns[turnCounter]);
 		}
 		//end turn inrement
 
@@ -123,8 +182,10 @@ function clearCards(){
 }
 
 function startTurn(obj){
-
+	clearCards();
 	populateCards(obj.number);	
+
+	console.log("card number " + obj.number);	
 	
 	let i = (obj.subArray.length > obj.addArray.length) ? obj.subArray.length : obj.addArray.length;
 	
@@ -132,6 +193,7 @@ function startTurn(obj){
 	//for each item in the add array 
 	for(ad=0;ad<obj.addArray.length;ad++){
 		let v = obj.addArray[ad].card;
+		console.log("AD " + ad);
 		cards[v].text('+' + obj.addArray[ad].val + ' ' + obj.addArray[ad].name);
 	}
 
@@ -173,15 +235,11 @@ function resourceClick(e){
 		}
 	});
 
-
-
-
 	turns[0].subArray.forEach((element) => {		
 		if(element.card === e.data("card")){
 			resourceSubtract(element, element.val);
 		}
 	})
-
 }
 
 
@@ -205,7 +263,7 @@ function assignData(){ //give card some data
 	//start off giving each dummy data 
 	let n = 0;
 	$('.resource-card').each(function(){
-		$(this).data("myTurn", testTurn); //assign the turn as a data element
+		$(this).data("myTurn", turn0); //assign the turn as a data element
 	})
 }
 
