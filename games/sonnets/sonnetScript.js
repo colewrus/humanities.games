@@ -45,7 +45,7 @@ function SetText(){
     for(i=0; i<4; i++){
         sonnetText[i].innerHTML = quatrains[quatrainCounter].myLines[i];
 		$(sonnetText[i]).parent().data({"pos": i, "valid": true});      
-		$(sonnetText[i]).css('opacity', '1');
+		$(sonnetText[i]).parent().fadeTo("fast", 1);
     }
 	round = 0;
     quatrainCounter++;           
@@ -63,13 +63,20 @@ function GameEnd(){
         
 $(document).ready(function(){
 	$('.sonnetCard').click(function(event){
-		console.log("clicked");
+	
 		var text = $(event.target).text();  
 		var progress =  document.getElementById('progress');
 		var lineBreak = document.createElement("br")
-		if(lines <= 13){
-			if($(event.target).is("div") && $(event.target).data("valid")){				
-				$(event.target).children().css('opacity', '0.2');
+
+		if (lines <= 13) {
+			if ($(this).data("valid")) {
+				console.log("run it here idiot");
+			}
+
+			if ($(event.target).is("div") && $(event.target).data("valid")) {	
+				$(event.target).fadeTo("fast", 0.5, function () {
+				});
+				
 				$(event.target).data("valid", false);
 				lines++;
 				progress.append(lineBreak);

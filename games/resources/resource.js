@@ -93,6 +93,7 @@ $(document).ready(function(){
 
 
 	startTurn(turns[turnCounter]);
+	$('#scene').text(turns[turnCounter].scenario);
 	
 	//click listeners 
 	$('.resource-card').click(function(){
@@ -101,18 +102,20 @@ $(document).ready(function(){
 		if (finalTurn) {
 			resourceClick($(this));
 			clearCards();
+			turnCounter++;
 			$('#turn-counter').text('Turn: ' + turnCounter);
-			console.log("game over");
+			$('#scene').text("Game Over");
 		}else if(turnCounter < maxTurns-2 && !finalTurn){						
-			$('#turn-counter').text('Turn: ' + turnCounter);
+			
 			if (turns[turnCounter] != undefined) {
 				turnCounter++;			
 				resourceClick($(this));
-				startTurn(turns[turnCounter]);				
+				startTurn(turns[turnCounter]);
+				$('#scene').text(turns[turnCounter].scenario);
 			} else {
 				console.log("not clear");
-            }
-		
+			}		
+			$('#turn-counter').text('Turn: ' + turnCounter);
 			//check for turn-based special events
 		}else{
 			turnCounter++;
@@ -121,20 +124,9 @@ $(document).ready(function(){
 			finalTurn = true;
 			resourceClick($(this));
 			startTurn(turns[turnCounter]);
+			$('#scene').text(turns[turnCounter].scenario);
 		}
-		//end turn inrement
 
-		
-		//let myObj =	$(this).data("myTurn"); //grab the object we attached to the div data
-	
-		//myObj.returnValues();
-				//this is where we will just run the add/subtract
-		
-		//get data
-			
-		//resourceAdd($(this), 5);
-		//parse data
-		//resourceSubtract("Wealth", 5);// need to add a check for all cases
 
 		
 	}) //end of click
@@ -185,8 +177,6 @@ function startTurn(obj){
 	clearCards();
 	populateCards(obj.number);	
 
-	console.log("card number " + obj.number);	
-	
 	let i = (obj.subArray.length > obj.addArray.length) ? obj.subArray.length : obj.addArray.length;
 	
 	//populate the text
@@ -202,6 +192,9 @@ function startTurn(obj){
 		cards[v].append("<br>" + ' -' + obj.subArray[sb].val + '  ' + obj.subArray[sb].name);
 	}
 }
+
+
+
 
 function turnObj (nCards, sceneText){
 	this.number = nCards;
