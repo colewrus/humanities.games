@@ -18,8 +18,7 @@ class Quatrain{
         this.line1 = line1;
         this.line2 = line2;
         this.line3 = line3;
-        this.line4 = line4;
-                
+        this.line4 = line4;                
         this.myLines = [line1, line2, line3, line4]
     }        
 }
@@ -70,7 +69,7 @@ $(document).ready(function(){
 
 		if (lines <= 13) {
 			if ($(this).data("valid")) {
-				console.log("run it here idiot");
+				console.log("run it here idiot");			
 			}
 
 			if ($(event.target).is("div") && $(event.target).data("valid")) {	
@@ -83,7 +82,7 @@ $(document).ready(function(){
 				progress.append(lines + '. '+text);
 					
 				if(round >=3){
-						SetText();
+					SetText();
 				}else{					
 					round++;						
 				}				

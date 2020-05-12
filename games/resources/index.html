@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="resource-style.css">
     <title>Resource Manager</title>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="resource.js"></script>
+    <script src="choice.js"></script>
 
   </head>
   <body>
@@ -24,28 +24,26 @@
         </div>
 		<div class="row">
             <div id="game-space">           
-                <div id="scene"><p>Welcome to the Game</p></div>
+                
                 <div class="resource-bar">
-                    <div><div id="turn"><p id="turn-counter">Turn: 0</p></div></div>
-                    <ul>
-                        <li>Wealth</li>
-                        <li>Food </li>
-                        <li>Pop</li>
-                        <li>Goods</li>
-                    </ul>
+                   <div><div id="turn"><p id="turn-counter">Turn: 0</p></div></div>
+                        <ul id="horizontal-list">
+                            <li>Wealth</li>
+                            <li>Food </li>
+                            <li>Pop</li>
+                            <li>Goods</li>
+                        </ul>                    
                 </div>
 
-                <div class="resource-card">I'm a card</div>
-                <div class="resource-card">I'm card 2</div>
-                <div class="resource-card">I'm card 3</div>
-                <div class="resource-card">I'm card 4</div>
-
-            </div>
-            
+                <div id="card-table">
+                    <div id="scene"><p>Welcome to the Game</p></div>
+                    <div class="resource-card">I'm a card</div>
+                    <div class="resource-card">I'm card 2</div>
+                    <div class="resource-card">I'm card 3</div>
+                    <div class="resource-card">I'm card 4</div>
+                </div>
+            </div>            
 		</div>
-        <div class="row">
-          
-        </div>
 	</div>
 
     

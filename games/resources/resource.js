@@ -87,8 +87,7 @@ $(document).ready(function(){
 
 	$('.resource-card').each(function(){
 		cards.push($(this));		
-		$(this).hide();
-	
+		$(this).hide();	
 	})
 
 
@@ -100,7 +99,7 @@ $(document).ready(function(){
 	
 		//increment the turn counter
 		if (finalTurn) {
-			resourceClick($(this));
+			resourceClick($(this), turnCounter);
 			clearCards();
 			turnCounter++;
 			$('#turn-counter').text('Turn: ' + turnCounter);
@@ -108,8 +107,8 @@ $(document).ready(function(){
 		}else if(turnCounter < maxTurns-2 && !finalTurn){						
 			
 			if (turns[turnCounter] != undefined) {
-				turnCounter++;			
-				resourceClick($(this));
+				turnCounter++;
+				resourceClick($(this), turnCounter);
 				startTurn(turns[turnCounter]);
 				$('#scene').text(turns[turnCounter].scenario);
 			} else {
@@ -122,7 +121,7 @@ $(document).ready(function(){
 			console.log("final turn");
 			$('#turn-counter').text('Turn: ' + turnCounter);
 			finalTurn = true;
-			resourceClick($(this));
+			resourceClick($(this), turnCounter);
 			startTurn(turns[turnCounter]);
 			$('#scene').text(turns[turnCounter].scenario);
 		}
@@ -183,7 +182,6 @@ function startTurn(obj){
 	//for each item in the add array 
 	for(ad=0;ad<obj.addArray.length;ad++){
 		let v = obj.addArray[ad].card;
-		console.log("AD " + ad);
 		cards[v].text('+' + obj.addArray[ad].val + ' ' + obj.addArray[ad].name);
 	}
 
@@ -217,18 +215,26 @@ function turnObj (nCards, sceneText){
 	}
 }
 
+function cardObj(title,explanation) {
+	this.title = title;
+	this.explanation = explanation; 
+	this.actions = [];
 
 
-function resourceClick(e){
+}
+
+
+
+function resourceClick(e, t){
 	
 	//for all the add arrays
-	turns[0].addArray.forEach((element) => {
+	turns[t].addArray.forEach((element) => {
 		if(element.card === e.data("card")){
 			resourceAdd(element, element.val);
 		}
 	});
 
-	turns[0].subArray.forEach((element) => {		
+	turns[t].subArray.forEach((element) => {		
 		if(element.card === e.data("card")){
 			resourceSubtract(element, element.val);
 		}
@@ -273,7 +279,7 @@ function getResource(n, arr){ //n = name arr = array of resources
 
 function populateResources(arr){
 	let counter = 0;
-	$('.resource-bar > ul > li').each(function(){
+	$('#horizontal-list > li').each(function(){
 		$(this).text('' + arr[counter].name + ': ' + arr[counter].value);
 		counter++;
 	})

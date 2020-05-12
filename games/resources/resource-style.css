@@ -2,43 +2,56 @@
 	
 }
 
-#game-space{
-	padding:1vw;
+#game-space {
+	padding: 1vw;
+	width: 100%;
 }
 
-.resource-card{
+#card-table{
+	width: 100%;
+	text-align: center;
+}
+
+.resource-card {
 	border: 1px solid black;
-	min-height:6vh;
+	min-height: 20vh;
 	border: 1px solid grey;
-	padding: 2px 5px;
+	padding: 12px 5px;
+	margin: auto 1vw;
 	border-radius: 0.3vw;
-	width: 10vw;
-	
+	width: 16vw;
 	display: inline-block;
-
 	-moz-user-select: none;
-   -khtml-user-select: none;
-   -webkit-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	vertical-align: top;	
 }
 
-.resource-bar{
-	
-	
-}
 
-.resource-bar ul {
+
+ul#horizontal-list {
+	min-width: 50px;
 	list-style: none;
-	margin: auto auto;	
+	padding-top: 20px;
+	text-align: center;
 }
 
-.resource-bar ul li {
-	display: inline-block;
+ul#horizontal-list li{
+	display: inline;
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2px 3px;
+	min-width: 23w;
 }
+
+
+
 
 #turn{
 	border: 1px solid black;
 	border-radius: 2px;
-	width: 3vw;
+	width: 8vw;
+	text-align: center;
 	margin: auto auto;
 }
 
