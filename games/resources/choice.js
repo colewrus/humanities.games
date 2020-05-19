@@ -1,3 +1,5 @@
+
+
 function turnObj(situationText) {
     this.situationText = situationText;
     this.cards = [];
@@ -29,6 +31,13 @@ function cardObj(titleText, exText, url = '') {
 function populateCard(_cardDom, _cardObj) {
     _cardDom.text(_cardObj.titleText);
     _cardDom.append("<br>" + _cardObj.exText);    
+}
+
+function populateCards(domArray, _turn){
+    for(i=0; i<_turn.cards.length; i++){        
+        domArray[i].text(_turn.cards[i].introText);
+        domArray[i].show();
+    }
 }
 
 $(document).ready(function () {
@@ -98,9 +107,33 @@ $(document).ready(function () {
     setCards();
     //End of construction
 
+    var audioElement = document.createElement('audio');
+    audioElement.setAttribute('src', 'Jump.wav');
+
+  // var aud = new Audio('/assets/sound/Jump.wav');
 
     $('.resource-card').click(function () {
+
+        let tempTurn = new Turn("situation text");
+        tempTurn.addCard("intro", "outro");
+        tempTurn.addCard("intro2", "outro2");
+        
+        for(i=0; i<tempTurn.cards.length; i++){
+            console.log("read card " , tempTurn.readCards(i));
+
+        }
+        hideCards();
+        populateCards(cards, tempTurn);
+
+        console.log(tempTurn);
+
+        /*
         console.log("click card");
+        audioElement.setAttribute('src', 'Explosion.wav');
+        audioElement.play();
+        console.log(audioElement);
+        */
+        /*
         console.log("player ready " + playerReady);
         if (playerReady) {
             if (turnCounter < turns.length - 1) {
@@ -118,7 +151,7 @@ $(document).ready(function () {
                 hideCards();
             }
         }
-
+        */
     })
 
 

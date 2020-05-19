@@ -5,6 +5,7 @@
 #game-space {
 	padding: 1vw;
 	width: 100%;
+
 }
 
 #card-table{
@@ -12,31 +13,49 @@
 	text-align: center;
 }
 
+.start-game{
+	border: 1px solid black;
+	min-height: 20vh;
+	width: 30vw;
+	text-align: center;
+	
+	margin: auto;
+}
+
+.start-game:hover{
+	border: 2px solid black;
+	background-color: gainsboro;
+}
+
 .resource-card {
 	border: 1px solid black;
 	min-height: 20vh;
-	border: 1px solid grey;
 	padding: 12px 5px;
 	margin: auto 1vw;
 	border-radius: 0.3vw;
 	width: 16vw;
 	display: inline-block;
+	/*
 	-moz-user-select: none;
 	-khtml-user-select: none;
 	-webkit-user-select: none;
+	*/	
 	vertical-align: top;	
 }
 
-
-
-ul#horizontal-list {
-	min-width: 50px;
-	list-style: none;
-	padding-top: 20px;
-	text-align: center;
+.resource-card:hover{
+	border: 2px solid black;
+	background-color: gainsboro;
 }
 
-ul#horizontal-list li{
+
+#horizontal-list ul{
+	min-width: 50px;
+	list-style: none;	
+	margin: 1vh 12vw;
+}
+
+#horizontal-list ul li{
 	display: inline;
 	border: 1px solid black;
 	border-radius: 3px;
@@ -56,5 +75,8 @@ ul#horizontal-list li{
 }
 
 #scene{
+	text-align:center;
+	padding: 2vh 0 12vh 0;
+	height: 12vh;
 
 }
