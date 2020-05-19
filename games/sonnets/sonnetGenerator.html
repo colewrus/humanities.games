@@ -12,23 +12,17 @@
     <title>Sonnet Generator</title>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="sonnetScript.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
   </head>
-  <body>
-  
-    
+  <body id="main">
+
 	
 	<div class="container-fluid">
-        <div class="row">
-            <h1 style="margin: auto">Sonnet Generator</h1>
+        <div class="row heading">
+            <h1 style="margin: auto" id="header">Sonnet Generator</h1>
         </div>
-		<div class="row">
-			<div class="col-sm">
-				<div id="narrative">
-                    <h1 id="narrativeHeader">Poem In Progress...</h1>
-                    <p id="progress"></p>                    
-                </div>
-            </div>
-
+		<div class="row sonnet">
+			
             <div class="col-sm">
                 <div class="row">
                     <div class="sonnetCard">
@@ -49,12 +43,19 @@
                     </div>
                 </div>                
             </div>
-		</div>
-   
-	</div>
 
-    
-    
+            <div class="col-sm" id="paper">
+                <div id="narrative">
+                    <h1 id="narrativeHeader">Poem In Progress...</h1>
+                    <p id="progress"></p>                    
+                </div>
+            </div>
+
+
+		</div>
+            <audio controls src="assets/sounds/harp.mp3" type="audio/mp3" loop></audio>        
+
+	</div>
 
     
   </body>  

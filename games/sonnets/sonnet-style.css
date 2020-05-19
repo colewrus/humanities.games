@@ -1,28 +1,79 @@
 .sonnetCard{
-    border: 1px solid black;   
-    padding: 0.75em;
+    border-color: #1d1b22;   
+    border-width: 4px;
+    border-style: solid;
+    padding: 1em;
     margin: 0.5em;
-    background: #e6ccff;
+    background: #f1d48a;
     border-radius: 10px;
-    height: 12vh;
+    height: 15vh;
     width: 20vw;
     display: inline-block;  
 }
 
 
 #main{
-  
+  background-image: url("assets//background-sonnet.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#paper{
+    background-image: url("assets//paper.png");
+    background-repeat: no-repeat;
+    background-size: cover;  
 }
 
 .choiceH{
-    font-size: 3vh;
+    font-size: 20px;
+    font: 'Source Code Pro', monospace;
 }
 
 .row{
-    border: 2px solid red;
+
 }
 
 .col-sm{
-    border: 1px dashed black;   
 }
+
+#header{
+    color: white;
+    font: 60px "Snell Roundhand", cursive;
+}
+
+
+#narrativeHeader{
+    color: #703415;
+    font: 30px 'Source Code Pro', monospace;
+    font-weight: bold;
+    margin: 135px 0px 0 130px;
+}
+
+h2{
+    font-family: 'Source Code Pro', monospace;
+}
+
+p{
+    font: 14px 'Source Code Pro', monospace;
+    margin-left: 120px;
+
+}
+
+.sonnet{
+    min-height: 800px;
+}
+
+
+@media (max-width: 1100px){
+    h2{
+        font-size: 18px !important;
+    }
+    
+}
+
+
+
+
+
+
 

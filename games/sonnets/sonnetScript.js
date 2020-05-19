@@ -41,7 +41,7 @@ function setup(){
 
         
 function SetText(){
-    for(i=0; i<4; i++){
+    for (i=0; i<4; i++) {
         sonnetText[i].innerHTML = quatrains[quatrainCounter].myLines[i];
 		$(sonnetText[i]).parent().data({"pos": i, "valid": true});      
 		$(sonnetText[i]).parent().fadeTo("fast", 1);
@@ -52,24 +52,53 @@ function SetText(){
         
 function GameEnd(){
 	console.log("Game Over");
-    document.getElementById('narrativeHeader').innerHTML = "Poem Done";
+    document.getElementById('narrativeHeader').innerHTML = "Poem Done!";
 	$('.choiceH').each(function(){
 		$(this).css('opacity', '0.2');
 	})
 }
-        
 
+/*
+  Sound Stuff!
+*/
+        
+function sound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
+}
+
+function playSound(filename, loop=false) {
+	var snd = new sound("assets/sounds/" + filename);
+	if (loop) {
+		snd.loop = true;
+	}
+	snd.play();
+}
+
+/***************************/
         
 $(document).ready(function(){
+
 	$('.sonnetCard').click(function(event){
-	
+
 		var text = $(event.target).text();  
 		var progress =  document.getElementById('progress');
 		var lineBreak = document.createElement("br")
 
 		if (lines <= 13) {
 			if ($(this).data("valid")) {
-				console.log("run it here idiot");			
+				console.log("run it here idiot");
+				playSound("gliss.mp3");
 			}
 
 			if ($(event.target).is("div") && $(event.target).data("valid")) {	
@@ -100,7 +129,8 @@ $(document).ready(function(){
 					}									
 				}				
 			}           
-			if(lines == 14){					
+			if(lines == 14){	
+				playSound("trumpet_2.mp3");
 				GameEnd();
 			}				
 		}else{
