@@ -14,21 +14,26 @@
 }
 
 .start-game{
-	border: 1px solid black;
+	border: 2px solid white;
+	border-radius: 4px;
 	min-height: 20vh;
 	width: 30vw;
 	text-align: center;
-	
 	margin: auto;
+	font: 36px Arial, sans-serif;
+	color: white;
+	padding-top: 46px;
+	background-color: #382526;
 }
 
 .start-game:hover{
-	border: 2px solid black;
-	background-color: gainsboro;
+	border: 4px solid black;
+	background-color: white;
+	color: black;
 }
 
 .resource-card {
-	border: 1px solid black;
+	border: 2px solid white;
 	min-height: 20vh;
 	padding: 12px 5px;
 	margin: auto 1vw;
@@ -40,12 +45,16 @@
 	-khtml-user-select: none;
 	-webkit-user-select: none;
 	*/	
-	vertical-align: top;	
+	vertical-align: top;
+	background-color: #382526;
+	color: white;
+	font: 18px Arial, sans-serif;	
 }
 
 .resource-card:hover{
-	border: 2px solid black;
-	background-color: gainsboro;
+	border: 4px solid black;
+	background-color: #E2E2E2;
+	color: black;
 }
 
 
@@ -67,16 +76,57 @@
 
 
 #turn{
-	border: 1px solid black;
+	border: 2px solid white;
 	border-radius: 2px;
 	width: 8vw;
 	text-align: center;
 	margin: auto auto;
+	font: 24px Arial, sans-serif;
+	padding: 5px;
+}
+
+#turn p{
+	margin-bottom: 0rem !important;
 }
 
 #scene{
 	text-align:center;
 	padding: 2vh 0 12vh 0;
 	height: 12vh;
-
+	color: white;
+	font: 20px Arial, sans-serif;
+	margin-top: 20px;
 }
+
+#reaction {
+	color: white;
+	font: 20px Arial, sans-serif;
+	margin-bottom: 40px;
+	font-style: italic;
+}
+
+
+body{
+	background-color: #3E0005;
+}
+
+h1{
+	font-family: Skia, monospace;
+	color: white;
+	text-shadow: 4px 4px #000000;
+	font-size: 48px;
+	text-align: center;
+	margin: 20px auto;
+}
+
+p{
+	color: white;
+}
+
+
+
+
+
+
+
+
