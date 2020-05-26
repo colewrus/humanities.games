@@ -168,7 +168,7 @@ $(document).ready(function () {
                     playerReady = true;    
                 }else{  //otherwise end
 
-                    $('#scene').text("End of game");
+                    $('#scene').text("End of Game");
                     $('#scene').fadeTo("fast", 1);
                     $('#reaction').fadeTo("fast", 0);
                     console.log("end of game");
