@@ -8,6 +8,12 @@
 
 }
 
+.block{
+	width: 2vw;
+	height: 2vw;
+	background-color: red;
+}
+
 #card-table{
 	width: 100%;
 	text-align: center;
@@ -29,7 +35,7 @@
 
 .resource-card {
 	border: 1px solid black;
-	min-height: 20vh;
+	min-height: 25vh;
 	padding: 12px 5px;
 	margin: auto 1vw;
 	border-radius: 0.3vw;
@@ -48,6 +54,13 @@
 	background-color: gainsboro;
 }
 
+.resource-card > div {
+	width: 4vw;
+	height: 4vw;
+	
+	margin: 0 auto;
+	background-size: contain;
+}
 
 #horizontal-list ul{
 	min-width: 50px;
