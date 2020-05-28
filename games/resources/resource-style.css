@@ -2,6 +2,7 @@
 	
 }
 
+
 #game-space {
 	padding: 1vw;
 	width: 100%;
@@ -9,9 +10,10 @@
 }
 
 .block{
-	width: 2vw;
-	height: 2vw;
-	background-color: red;
+
+	height: 50px;	
+	
+	background-size: contain;
 }
 
 #card-table{
@@ -62,22 +64,6 @@
 	background-size: contain;
 }
 
-#horizontal-list ul{
-	min-width: 50px;
-	list-style: none;	
-	margin: 1vh 12vw;
-}
-
-#horizontal-list ul li{
-	display: inline;
-	border: 1px solid black;
-	border-radius: 3px;
-	padding: 2px 3px;
-	min-width: 23w;
-}
-
-
-
 
 #turn{
 	border: 1px solid black;
@@ -92,4 +78,22 @@
 	padding: 2vh 0 12vh 0;
 	height: 12vh;
 
+}
+
+#past-choices{
+	text-align: center;	
+}
+
+.resource-bar > ul {
+	list-style: none;	
+	margin-top: 5vh;
+	text-align: center
+}
+
+.resource-bar > ul > li {
+	display: inline;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 1vh 1vw;
+	margin: 0 2vw;
 }

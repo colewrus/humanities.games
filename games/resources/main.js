@@ -23,19 +23,58 @@ function hideCards(domArray, exempt) {
 }
 
 
-
-
 function play(n){
     let audio = document.createElement('audio');   
     audio.src = './assets/sound/' + n + '.mp3';
     audio.play();
 }
 
+function createBlock(dest, _card){         //idea to put a block that holds the data of the card selected so player can review their choices      
+    $('<div></div>',{
+        "class": "block",        
+        "title": _card.outText,       
+        function(){
+            $(this).text(""+_card.outText);
+            if(_card.r.url != null){
+                $('<img>',{
+                    'src' : "./assets/" + _card.r.url,
+                    'width' : '50px',
+                    'height' : '50px',
+                    click: function(){
+                        console.log("you clicked me");
+                    }
+                }).appendTo($(this));
+            }
 
+            //$(this).css("background-image", "url(./assets/" + _card.r.url + ")");
+        }     
+    }).appendTo(dest);    
+}
+
+function removeChildren(domClass){
+    $('.'+domClass).remove();
+}
+
+function createResourceUI(dest, resourceArray){
+    $('<ul></ul>',{
+        function(){
+            for(i=0; i<resourceArray.length; i++){
+                $('<li></li>',{ 
+                    function() {
+                     $(this).text(""+resourceArray[i].name);
+                    }
+                    
+                }).appendTo($(this));               
+                console.log("should add a resource");
+            }
+
+        }        
+    }).appendTo(dest);
+}
 
 $(document).ready(function () {
 
-    var cards = [];
+    var cards = []; //this references the DOM element 
     var turnCounter = 0;
     var turns = [];
     
@@ -56,7 +95,7 @@ $(document).ready(function () {
         
 
     var turn0 = new Turn("Your city values...");
-    turn0.addCard("Knowledge and wisdom ", "Athens was a hub for philosohpy and science", resources[0]); 
+    turn0.addCard("Knowledge and wisdom ", "Athens was a hub for philosohpy and science", resources[0]);     
     turn0.addCard("Perfect martial prowess.", "Sparta was a brutal society that trained citizen men for one thing, war", resources[1]);
     turn0.addCard("Power and influence", "Thebes was shrewd and used it's central location to influence all of Greece", resources[2]);
 
@@ -70,21 +109,20 @@ $(document).ready(function () {
     turn2.addCard("A slave uprising, while warriors are in battle far away who keeps the homeland safe?", "All Spartan citizen men being warriors meant they relied upon slave labor for food and manufacture",resources[1]);
     turn2.addCard("Isolation is the blade you fear. Walls may protect from siege but vassals protect from invasion", "Thebes was centrally located and used control over neighboring villages and cities to protect itself", resources[2]); 
 
-
-//End of Construction Zone BEEP BEEP    
-
-
     //Assign the turns
     turns.push(turn0);
     turns.push(turn1);
     turns.push(turn2);
+//End of Construction Zone BEEP BEEP    
+
+
 
 
 
     //add all the DOM elements that should be a card
     $('.resource-card').each(function () {
         cards.push($(this));
-        cards[cards.length - 1].data("cardVal", cards.length-1);
+        //cards[cards.length - 1].data("cardVal", cards.length-1);
         $(this).hide();
         $(this).fadeTo('slow', 0);
         $(this).css('pointer-events','none');
@@ -111,13 +149,17 @@ $(document).ready(function () {
         for(i=0;i<resources.length;i++){
             resources[i].value = 0;
         }
+        if($('.block') != null){
+            removeChildren('block');
+        }
     })  
 
 
     $('#reaction').fadeTo("fast", 0);  //hide reaction, ---temporary--- may do something different for this
+  
 
+    $('.resource-card').click(function () {   
 
-    $('.resource-card').click(function () {           
         if(playerReady){
             console.log("player valid click");   
             
@@ -127,12 +169,14 @@ $(document).ready(function () {
             }else{
                 play('trumpet_2');
             }
+
             let pos = $(this).index(); //get the position in the list of cards to know which card was clicked                
+            
             turns[turnCounter].cards[pos].r.value += 1; //score one for the associated card
          
             setTimeout(() => {
                 hideCards(cards, pos); //hide the cards, the one you clicked has a delay                        
-            }, 2000);
+            }, 200);
 
            $('#scene').fadeTo("slow", 0);//hide the scene text
            $('#reaction').fadeTo("fast", 0);             
@@ -142,6 +186,7 @@ $(document).ready(function () {
                 $('#reaction').fadeTo("fast", 1);
             }, 500);  
              
+
             setTimeout(() => { //setup the new turn
                 turnCounter++;     
                 if(turnCounter != turns.length){ //if we have more turns in the list                    
@@ -160,21 +205,10 @@ $(document).ready(function () {
                     $('.start-game').css('pointer-events', 'auto');
                 }         
             }, 4000);
+
+            createBlock($('#past-choices'), turns[turnCounter].cards[pos]);
            playerReady = false;
         }  
     })
-
-
-
-
-    function createBlock(dest, _card){         //idea to put a block that holds the data of the card selected so player can review their choices      
-        $('<div></div>',{
-            "class": "block",
-            "data": _card,
-            hover:function(){
-                console.log($(this).data().outText);
-            }
-        }).appendTo(dest);    
-    }
 
 })
