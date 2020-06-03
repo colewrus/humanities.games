@@ -7,6 +7,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- DroolTip CSS -->
+    <link rel="stylesheet" type="text/css" href="plugins/drooltip/drooltip.css">
     <!-- Custom Style -->
     <link rel="stylesheet" type="text/css" href="resource-style.css">
 
@@ -29,7 +31,7 @@
             <div id="game-space">           
                 
                 <div class="resource-bar">
-                   <div><div id="turn"><p id="turn-counter">Turn: 0</p></div></div>
+                   <div><div id="turn" title="test"><p id="turn-counter">Turn: 0</p></div></div>
                    
                 </div>
                 <div id="scene"><p></p></div>
@@ -44,7 +46,7 @@
                       <p></p>
                       <div></div>
                     </div>
-                    <div class="resource-card">
+                    <div class="resource-card" title="3">
                       <p></p>
                       <div></div>
                     </div>
@@ -68,9 +70,24 @@
     
   </body>  
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="plugins/drooltip/drooltip.js"></script>
   <script src="resources.js"></script>
   <script src="turn.js"></script>
   <script src="card.js"></script>
   <script src="main.js"></script>
- 
+<!--
+  <script>
+      var tooltip = new Drooltip({
+        "element" : ".block",
+        "trigger" : "hover",
+        "content" : "test table",
+        "callback" : "customCallback"
+      });
+
+      function customCallback(data){
+        var obj = this;
+        console.log(obj);
+      }
+  </script>
+ -->
  </html>

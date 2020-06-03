@@ -22,7 +22,6 @@ function hideCards(domArray, exempt) {
     }
 }
 
-
 function play(n){
     let audio = document.createElement('audio');   
     audio.src = './assets/sound/' + n + '.mp3';
@@ -39,16 +38,12 @@ function createBlock(dest, _card){         //idea to put a block that holds the 
                 $('<img>',{
                     'src' : "./assets/" + _card.r.url,
                     'width' : '50px',
-                    'height' : '50px',
-                    click: function(){
-                        console.log("you clicked me");
-                    }
+                    'height' : '50px'                    
                 }).appendTo($(this));
-            }
-
-            //$(this).css("background-image", "url(./assets/" + _card.r.url + ")");
+            }            
         }     
     }).appendTo(dest);    
+
 }
 
 function removeChildren(domClass){
@@ -62,12 +57,10 @@ function createResourceUI(dest, resourceArray){
                 $('<li></li>',{ 
                     function() {
                      $(this).text(""+resourceArray[i].name);
-                    }
-                    
+                    }                    
                 }).appendTo($(this));               
                 console.log("should add a resource");
             }
-
         }        
     }).appendTo(dest);
 }
@@ -83,6 +76,7 @@ $(document).ready(function () {
     var resources = []
 
 
+
 //Construction Zone  BEEP BEEP
     var athens = new Resource("Athens", "A center for the arts, learning and philosophy. A powerful city-state protected only by a wooden wall.", 'athens-icon.png');
     var sparta = new Resource("Sparta", "Unique in ancient Greece for its social system and constitution. A society with all social institutions focused on military training and physical development.", 'sparta-icon.png');
@@ -92,8 +86,6 @@ $(document).ready(function () {
             resources.push(sparta);
             resources.push(thebes);
     
-        
-
     var turn0 = new Turn("Your city values...");
     turn0.addCard("Knowledge and wisdom ", "Athens was a hub for philosohpy and science", resources[0]);     
     turn0.addCard("Perfect martial prowess.", "Sparta was a brutal society that trained citizen men for one thing, war", resources[1]);
@@ -115,10 +107,6 @@ $(document).ready(function () {
     turns.push(turn2);
 //End of Construction Zone BEEP BEEP    
 
-
-
-
-
     //add all the DOM elements that should be a card
     $('.resource-card').each(function () {
         cards.push($(this));
@@ -127,15 +115,12 @@ $(document).ready(function () {
         $(this).fadeTo('slow', 0);
         $(this).css('pointer-events','none');
         $(this).show();
-    })
-    
+    })   
 
     var start = document.createElement("div");   
     start.className += "start-game";
     start.textContent ="Start Game";
     $('#card-table').append(start);
-
-
 
     $('.start-game').click(function(){ //basically the init
         turnCounter = 0;
@@ -154,26 +139,21 @@ $(document).ready(function () {
         }
     })  
 
-
     $('#reaction').fadeTo("fast", 0);  //hide reaction, ---temporary--- may do something different for this
   
 
     $('.resource-card').click(function () {   
 
         if(playerReady){
-            console.log("player valid click");   
-            
+            console.log("player valid click");               
             //quick randomizer for the two sounds
             if(turnCounter%2 != 0){
                 play('trumpet_1');
             }else{
                 play('trumpet_2');
             }
-
-            let pos = $(this).index(); //get the position in the list of cards to know which card was clicked                
-            
+            let pos = $(this).index(); //get the position in the list of cards to know which card was clicked         
             turns[turnCounter].cards[pos].r.value += 1; //score one for the associated card
-         
             setTimeout(() => {
                 hideCards(cards, pos); //hide the cards, the one you clicked has a delay                        
             }, 200);
@@ -186,7 +166,6 @@ $(document).ready(function () {
                 $('#reaction').fadeTo("fast", 1);
             }, 500);  
              
-
             setTimeout(() => { //setup the new turn
                 turnCounter++;     
                 if(turnCounter != turns.length){ //if we have more turns in the list                    
