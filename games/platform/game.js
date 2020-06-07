@@ -44,12 +44,14 @@ function preload(){
     
     //audio
     this.load.audio('bkg', 'assets/audio/harp_bourree.mp3');
-    this.load.audio('win', 'assets/audio/trumpet_1.mp3');
+    this.load.audio('win', 'assets/audio/collect-4.mp3');
+    this.load.audio('loss', 'assets/audio/loss-1.mp3'); 
+    this.load.audio('jump', 'assets/audio/jump-1.mp3');   
 }
 
 function create(){       
 //AUDIO
-    var bkgMusic = this.sound.add('bkg', {volume: 0.5, loop: true});
+    var bkgMusic = this.sound.add('bkg', {volume: 0.3, loop: true});
     bkgMusic.play();
 
 
@@ -142,6 +144,9 @@ function update(){
   
     if(arrows.up.isDown && player.body.touching.down){   
         player.setVelocityY(-150);
+       
+        var jumpSound = this.sound.add('jump', {volume: 0.4, loop: false})
+        jumpSound.play();
     }
     checkPlayerOOB(player); 
     //console.log("Player bounds " , player.getBounds().y);
@@ -165,13 +170,15 @@ function flipSprite(_sprite){
 
 function fireballTouch(){
     respawnPlayer();
+    var lossSound = this.sound.add('loss', {volume: 0.9});
+        lossSound.play();
 }
 
 function setWin(){
     if(!win){
         var tex = this.add.text(300, 50, "You Win");
         win = true;        
-        var winSound = this.sound.add('win', {volume: 0.75});
+        var winSound = this.sound.add('win', {volume: 1});
         winSound.play();
     }
 }
