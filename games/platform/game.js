@@ -56,13 +56,17 @@ function preload(){
     
     //audio
     this.load.audio('bkg', 'assets/audio/harp_bourree.mp3');
-    this.load.audio('win', 'assets/audio/trumpet_1.mp3');
 
     //UI
     this.load.image('arrow', 'assets/vis/arrow.png');
 
     //Shakespeare
     this.load.image('globe', 'assets/vis/globe-drawn.jpg');
+
+    this.load.audio('win', 'assets/audio/collect-4.mp3');
+    this.load.audio('loss', 'assets/audio/loss-1.mp3'); 
+    this.load.audio('jump', 'assets/audio/jump-1.mp3');   
+
 }
 
 
@@ -72,7 +76,9 @@ function create(){
 
 
 //AUDIO
+
     var bkgMusic = this.sound.add('bkg', {volume: 0.12, loop: true});
+
     bkgMusic.play();
 
     winSound = this.sound.add('win', {volume: 0.25});
@@ -256,6 +262,7 @@ function update(){
     }else{
         player.setVelocityX(0);
     }
+<<<<<<< HEAD
 
 //Floaty controls for testing
     if(arrows.up.isDown){
@@ -300,9 +307,12 @@ function respawnPlayer(){
 
 function fireballTouch(){
     respawnPlayer();
+    var lossSound = this.sound.add('loss', {volume: 0.9});
+        lossSound.play();
 }
 
 function setWin(){
+
     if(!win){  
         text.setVisible(true);
         winSound.play();
