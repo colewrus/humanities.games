@@ -77,6 +77,7 @@ $(document).ready(function () {
 
 
 
+
 //Construction Zone  BEEP BEEP
     var athens = new Resource("Athens", "A center for the arts, learning and philosophy. A powerful city-state protected only by a wooden wall.", 'athens-icon.png');
     var sparta = new Resource("Sparta", "Unique in ancient Greece for its social system and constitution. A society with all social institutions focused on military training and physical development.", 'sparta-icon.png');
@@ -107,6 +108,7 @@ $(document).ready(function () {
     turns.push(turn2);
 //End of Construction Zone BEEP BEEP    
 
+createResourceUI('.resource-bar', resources);
     //add all the DOM elements that should be a card
     $('.resource-card').each(function () {
         cards.push($(this));
@@ -153,7 +155,7 @@ $(document).ready(function () {
                 play('trumpet_2');
             }
             let pos = $(this).index(); //get the position in the list of cards to know which card was clicked         
-            turns[turnCounter].cards[pos].r.value += 1; //score one for the associated card
+            turns[turnCounter].cards[pos].r.value += 1; //score one for the associated resource
             setTimeout(() => {
                 hideCards(cards, pos); //hide the cards, the one you clicked has a delay                        
             }, 200);
