@@ -65,6 +65,8 @@ function preload(){
     //Shakespeare
     this.load.image('globe', 'assets/vis/globe-1.png');
     this.load.image('old-bridge', 'assets/vis/old-london-bridge.jpg');
+    this.load.image('scroll', 'assets/vis/scroll.png');
+    this.load.image('will', 'assets/vis/shakes-1.png');
 }
 
 
@@ -76,6 +78,9 @@ function create(){
 //Backgrounds 
 this.add.image(720, this.physics.world.bounds.height-(48+118), 'globe').setScale(0.5,0.5);
 this.add.image((32*48) + 480, this.physics.world.bounds.height-(48+80), 'old-bridge');
+this.add.image(420, this.physics.world.bounds.height-(48+110), 'scroll').setScale(0.25, 0.25);
+this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(0.04, 0.04);
+
 
 //AUDIO
     var bkgMusic = this.sound.add('bkg', {volume: 0.12, loop: true});
