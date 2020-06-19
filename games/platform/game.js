@@ -87,37 +87,39 @@ this.add.image((32*48) + 480, this.physics.world.bounds.height-(48+80), 'old-bri
     platforms = this.physics.add.staticGroup();
   
     platforms.create(32*24, this.physics.world.bounds.height-48,'ground').setScale(48, 3).refreshBody();   //1 
-    // platforms.create(this.game.canvas.width-32*5, this.physics.world.bounds.height-48, 'ground').setScale(10,3).refreshBody(); //2
-    console.log("Physics world bounds " , this.physics.world.bounds);
+    platforms.create(32*54, this.physics.world.bounds.height-48, 'ground').setScale(10,3).refreshBody(); //2
+    
+    //upper left
+    platforms.create(32*16, 300, 'ground').setScale(31, 2).refreshBody();
 
 //World bkg 
 
 
 //FIREBALL
-    var fireball_config = {
-        key: 'base',
-        frames: this.anims.generateFrameNumbers('fireball', {end:4 }),
-        frameRate: 12,        
-        repeat: -1        
-    }
-   fireball_anim = this.anims.create(fireball_config);
-   fireball = this.physics.add.sprite(300, this.game.canvas.height + 16, 'fireball');     
-   fireball.body.setAllowGravity(false);
+//     var fireball_config = {
+//         key: 'base',
+//         frames: this.anims.generateFrameNumbers('fireball', {end:4 }),
+//         frameRate: 12,        
+//         repeat: -1        
+//     }
+//    fireball_anim = this.anims.create(fireball_config);
+//    fireball = this.physics.add.sprite(300, this.game.canvas.height + 16, 'fireball');     
+//    fireball.body.setAllowGravity(false);
    
-   fireball.body.setCircle(14,0,0);
-   fireball.angle = 90;
-   fireball.anims.load('base'); 
-   fireball.anims.play('base');
+//    fireball.body.setCircle(14,0,0);
+//    fireball.angle = 90;
+//    fireball.anims.load('base'); 
+//    fireball.anims.play('base');
 
-   var fireballTween = this.tweens.add({
-       targets: fireball,
-       y: 220,
-       ease: 'Linear',
-       duration: 1500,
-       repeat: -1, 
-       yoyo: true,
-       flipX: true,
-   })
+//    var fireballTween = this.tweens.add({
+//        targets: fireball,
+//        y: 220,
+//        ease: 'Linear',
+//        duration: 1500,
+//        repeat: -1, 
+//        yoyo: true,
+//        flipX: true,
+//    })
 //COIN  
     var coin = this.physics.add.sprite(this.game.canvas.width-32, this.physics.world.bounds.height - 175, 'coinPNG');
     coin.body.setAllowGravity(false);
@@ -131,11 +133,11 @@ this.add.image((32*48) + 480, this.physics.world.bounds.height-(48+80), 'old-bri
        repeat: -1
    }
  
-   player = this.physics.add.sprite(32, this.physics.world.bounds.height - 150, 'cole');
+   player = this.physics.add.sprite(920, this.physics.world.bounds.height - 150, 'cole');
    player.setBounce(0.2);
    player.setCollideWorldBounds(false);
    player.body.setSize(12,32);
-//    player.body.setAllowGravity(false); //get rid of me once done testing
+   player.body.setAllowGravity(false); //get rid of me once done testing
    player_anim = this.anims.create(player_config);
    player.anims.load('run');
    player.anims.play('run');
@@ -149,7 +151,7 @@ this.add.image((32*48) + 480, this.physics.world.bounds.height-(48+80), 'old-bri
 //Physics and collision
 
    this.physics.add.collider(player, platforms);
-   this.physics.add.overlap(player, fireball, fireballTouch);
+//    this.physics.add.overlap(player, fireball, fireballTouch);
    this.physics.add.overlap(player, coin, setWin);
 
 //Win State
@@ -170,6 +172,7 @@ this.add.image((32*48) + 480, this.physics.world.bounds.height-(48+80), 'old-bri
     var jumpButton = this.add.rectangle(this.game.canvas.width*0.65, this.game.canvas.height/2, this.game.canvas.width*0.75, this.game.canvas.height, 0x000000, 0);
     jumpButton.setInteractive();
     jumpButton.setScrollFactor(0);
+
     //buttons are large for easier tap
     leftButton = this.add.rectangle(50, this.game.canvas.height/2, 100, this.game.canvas.height, 0xc2fff7, 0);
     rightButton = this.add.rectangle(150, this.game.canvas.height/2, 100, this.game.canvas.height, 0xc2fff7, 0);
@@ -223,17 +226,15 @@ function render(){
 
 
 function update(){       
-;
-
     if(this.input.mousePointer.isDown || this.input.pointer1.isDown || this.input.pointer2.isDown){       
        if(leftDown){
             player.setVelocityX(-160);
             player.flipX = true;
-           
+           console.log("left is down");
         }else if(rightDown){
             player.setVelocityX(160);
-            player.flipX = false; 
-          
+            player.flipX = false;      
+            console.log("right down");     
         }  
     }else{        
         if(leftDown || rightDown){           
@@ -245,7 +246,7 @@ function update(){
 
   
 
-//Keyboard contorls
+    //Keyboard contorls
     if(arrows.left.isDown){
         player.setVelocityX(-160);
         player.flipX = true;
@@ -256,15 +257,15 @@ function update(){
         player.setVelocityX(0);
     }
 
-//Floaty controls for testing
-    // if(arrows.up.isDown){
-    //     player.setVelocityY(-160);
-    // }else if(arrows.down.isDown){
-    //     player.setVelocityY(160);
-    // }else{
-    //     player.setVelocityY(0);
-    // }
-//end floaty
+    //Floaty controls for testing
+        if(arrows.up.isDown){
+            player.setVelocityY(-160);
+        }else if(arrows.down.isDown){
+            player.setVelocityY(160);
+        }else{
+            player.setVelocityY(0);
+        }
+    //end floaty
   
     if(arrows.up.isDown && player.body.touching.down){   
         player.setVelocityY(-275);       
@@ -273,13 +274,14 @@ function update(){
 
     if(!player.body.touching.down && arrows.up.isUp && player.body.velocity.y < 0){
         jumpDecay();
-    }
- 
-    
+    }    
 
-
-   checkPlayerOOB(player);     
+    checkPlayerOOB(player);     
 }
+
+
+
+
 
 function jumpDecay(){    
     if(player.body.velocity.y < 0)
