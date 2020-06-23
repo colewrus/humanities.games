@@ -35,6 +35,8 @@ var playerSpawn = new Phaser.Math.Vector2();
 var text;
 var winSound;
 
+var onPassThrough = false; //if you are on top of an object you can "down" through
+
 //mobile control vars
 var leftButton;
 var rightButton;
@@ -44,7 +46,7 @@ var timer;
 var self = this;
 
 var jumpTimer;
-var debugText;
+
 
 var worldHeight;
 
@@ -54,7 +56,8 @@ function preload(){
     this.load.image('ground', 'assets/vis/red32x32.png');
     this.load.spritesheet('cole', 'assets/vis/cole-run-only.png', {frameWidth: 32, frameHeight: 32});
     this.load.spritesheet('coinPNG', 'assets/vis/Coin.png', {frameWidth: 32, frameHeight: 32});
-    
+    this.load.image('box', 'assets/vis/128-box.png');
+
     //audio
     this.load.audio('bkg', 'assets/audio/harp_bourree.mp3');
     this.load.audio('win', 'assets/audio/trumpet_1.mp3');
@@ -88,16 +91,27 @@ this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(
 
     winSound = this.sound.add('win', {volume: 0.25});
 
-//PLATFORMS
+//STATIC PLATFORMS
     platforms = this.physics.add.staticGroup();
   
+    //opening ground level
     platforms.create(32*24, this.physics.world.bounds.height-48,'ground').setScale(48, 3).refreshBody();   //1 
-    platforms.create(32*54, this.physics.world.bounds.height-48, 'ground').setScale(10,3).refreshBody(); //2
+    //past london bridge ground
+    platforms.create(32*74, this.physics.world.bounds.height-48, 'ground').setScale(10,3).refreshBody(); //2
     
     //upper left
-    platforms.create(32*16, 300, 'ground').setScale(31, 2).refreshBody();
+    platforms.create(32*15, 300, 'ground').setScale(32, 1.5).refreshBody();
 
-//World bkg 
+    //Make platforms you can jump through here
+    jumpThroughs = this.physics.add.staticGroup();
+
+    jumpThroughs.create(1200, 550, 'box').setScale(1,0.15).refreshBody();
+    jumpThroughs.create(1100, 475, 'box').setScale(1,0.15).refreshBody();
+    jumpThroughs.create(1050, 375, 'box').setScale(.5,0.15).refreshBody();
+    
+
+
+
 
 
 //FIREBALL
@@ -125,10 +139,18 @@ this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(
 //        yoyo: true,
 //        flipX: true,
 //    })
+
 //COIN  
     var coin = this.physics.add.sprite(this.game.canvas.width-32, this.physics.world.bounds.height - 175, 'coinPNG');
     coin.body.setAllowGravity(false);
     coin.body.setCircle(11,5,5);
+
+
+//BILL'S SCRIPTS
+
+    var collectibles = this.physics.add.staticGroup();
+    collectibles.create(100, 225,'scroll').setScale(0.15, 0.15).refreshBody();
+    collectibles.children.entries[0].body.setSize(75,55);
 
 //PLAYER  
    var player_config = {
@@ -138,11 +160,11 @@ this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(
        repeat: -1
    }
  
-   player = this.physics.add.sprite(920, this.physics.world.bounds.height - 150, 'cole');
+   player = this.physics.add.sprite(2528, this.physics.world.bounds.height - 150, 'cole');
    player.setBounce(0.2);
    player.setCollideWorldBounds(false);
    player.body.setSize(12,32);
-   player.body.setAllowGravity(false); //get rid of me once done testing
+   player.body.setAllowGravity(true); //get rid of me once done testing
    player_anim = this.anims.create(player_config);
    player.anims.load('run');
    player.anims.play('run');
@@ -153,11 +175,18 @@ this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(
 
 
 
-//Physics and collision
 
-   this.physics.add.collider(player, platforms);
-//    this.physics.add.overlap(player, fireball, fireballTouch);
-   this.physics.add.overlap(player, coin, setWin);
+//Physics and collision
+ 
+
+    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, jumpThroughs, jumpThroughCollide);
+
+    this.physics.add.overlap(player, coin, setWin);
+
+
+
+  
 
 //Win State
    text = this.add.text(300, 50, "You Win");
@@ -171,7 +200,7 @@ this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(
 
     game.input.addPointer();
     game.input.addPointer();  
-    debugText = this.add.text(10, 10, 'input',{ font: '16px Courier', fill: '#00ff00' });
+    
 
     //duck it big jump button that takes up most the screen
     var jumpButton = this.add.rectangle(this.game.canvas.width*0.65, this.game.canvas.height/2, this.game.canvas.width*0.75, this.game.canvas.height, 0x000000, 0);
@@ -187,18 +216,8 @@ this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(
 
     leftButton.setScrollFactor(0);
     rightButton.setScrollFactor(0);
-    
-   //the arrows, just visual no interaction
-    var leftArrow = this.add.image(50, this.game.canvas.height - 32, 'arrow').setScale(2,2);
-    var rightArrow = this.add.image(150, this.game.canvas.height - 32, 'arrow').setScale(2,2);
-    rightArrow.flipX = true;
-    var arrowLine = this.add.line(100, this.game.canvas.height - 32, 0, 0, 0, 50, 0xffffff);
-   
-   //camera stuph
-    leftArrow.setScrollFactor(0);
-    rightArrow.setScrollFactor(0);
-    arrowLine.setScrollFactor(0);
-   
+
+       
    //mobile button behavior
     leftButton.on('pointerdown', function(pointer){
         leftDown = true;
@@ -220,6 +239,27 @@ this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(
         if(player.body.velocity.y <0)
             jumpDecay();
     })
+  
+//UI STUPH
+//the arrows, just visual no interaction
+    var leftArrow = this.add.image(50, this.game.canvas.height - 32, 'arrow').setScale(2,2);
+    var rightArrow = this.add.image(150, this.game.canvas.height - 32, 'arrow').setScale(2,2);
+    rightArrow.flipX = true;
+    var arrowLine = this.add.line(100, this.game.canvas.height - 32, 0, 0, 0, 50, 0xffffff);
+   
+   //camera stuph
+    leftArrow.setScrollFactor(0);
+    rightArrow.setScrollFactor(0);
+    arrowLine.setScrollFactor(0);
+
+
+//might need to refine this but works for now
+    for(i=0; i<jumpThroughs.children.entries.length; i++){
+        jumpThroughs.children.entries[i].body.checkCollision.down = false; 
+    } 
+
+   
+    
 }
 
 // ----END OF CREATE
@@ -231,6 +271,22 @@ function render(){
 
 
 function update(){       
+//probably unecessary as we don't have an easy control for mobile but meh 
+    if(player.body.touching.none){               
+        onPassThrough = false;
+    }else if(onPassThrough){
+        if(arrows.down.isDown){           
+            player.body.checkCollision.down = false;
+            this.time.addEvent({
+                delay: 500,
+                callback: ()=>{
+                    player.body.checkCollision.down = true;
+                }
+            })
+        }
+    }
+//End of gratuitous code
+
     if(this.input.mousePointer.isDown || this.input.pointer1.isDown || this.input.pointer2.isDown){       
        if(leftDown){
             player.setVelocityX(-160);
@@ -263,13 +319,13 @@ function update(){
     }
 
     //Floaty controls for testing
-        if(arrows.up.isDown){
-            player.setVelocityY(-160);
-        }else if(arrows.down.isDown){
-            player.setVelocityY(160);
-        }else{
-            player.setVelocityY(0);
-        }
+        // if(arrows.up.isDown){
+        //     player.setVelocityY(-160);
+        // }else if(arrows.down.isDown){
+        //     player.setVelocityY(160);
+        // }else{
+        //     player.setVelocityY(0);
+        // }
     //end floaty
   
     if(arrows.up.isDown && player.body.touching.down){   
@@ -281,10 +337,15 @@ function update(){
         jumpDecay();
     }    
 
-    checkPlayerOOB(player);     
+    checkPlayerOOB(player); 
+    
+
 }
 
 
+function jumpThroughCollide(){
+    onPassThrough = true;
+}
 
 
 
