@@ -50,6 +50,10 @@ var jumpTimer;
 var worldHeight;
 var me;
 
+
+var fireballTween; 
+
+
 function preload(){
     this.load.image('greeble', 'assets/vis/greeble.png');
     this.load.spritesheet('fireball', 'assets/vis/xfireball.png', {frameWidth: 32, frameHeight: 32});
@@ -91,7 +95,10 @@ function create(){
     this.add.image(420, this.physics.world.bounds.height-(48+110), 'scroll').setScale(0.15, 0.15);
     this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(0.04, 0.04);
 
-    var bridgeRect = Phaser.Geom.Rectangle(2250, this.physics.world.bounds.height-(48+60), (2851*0.5), (476*0.5));
+    var bridgeRect = this.add.rectangle(2250, this.physics.world.bounds.height-37, (2851*0.5), (476*0.25), 0x6666ff, 0);
+    this.physics.add.existing(bridgeRect);  
+    bridgeRect.body.setAllowGravity(false);
+    bridgeRect.body.setImmovable(true);
     
 //AUDIO
     var bkgMusic = this.sound.add('bkg', {volume: 0.12, loop: true});
@@ -123,30 +130,43 @@ function create(){
 
 
 //FIREBALL
-//     var fireball_config = {
-//         key: 'base',
-//         frames: this.anims.generateFrameNumbers('fireball', {end:4 }),
-//         frameRate: 12,        
-//         repeat: -1        
-//     }
-//    fireball_anim = this.anims.create(fireball_config);
-//    fireball = this.physics.add.sprite(300, this.game.canvas.height + 16, 'fireball');     
-//    fireball.body.setAllowGravity(false);
+     var fireball_config = {
+         key: 'base',
+         frames: this.anims.generateFrameNumbers('fireball', {end:4 }),
+         frameRate: 12,        
+         repeat: -1        
+     }
+    fireball_anim = this.anims.create(fireball_config);
+    fireball = this.physics.add.sprite(1812, 600, 'fireball');     
+    fireball.body.setAllowGravity(false);
    
-//    fireball.body.setCircle(14,0,0);
-//    fireball.angle = 90;
-//    fireball.anims.load('base'); 
-//    fireball.anims.play('base');
+    fireball.body.setCircle(14,0,0);
+    fireball.angle = 0;
+    fireball.anims.load('base'); 
+    fireball.anims.play('base');
 
-//    var fireballTween = this.tweens.add({
-//        targets: fireball,
-//        y: 220,
-//        ease: 'Linear',
-//        duration: 1500,
-//        repeat: -1, 
-//        yoyo: true,
-//        flipX: true,
-//    })
+    fireballTween = this.tweens.add({
+        targets: fireball,
+        x:2207,
+        ease: 'Linear',
+        duration: 2500,
+        repeat: -1, 
+        hold: 500,//pause when the yoyo reaches the end 
+        yoyo: true,
+        flipX: false,
+        onYoyo: function(){ 
+            console.log("fireball loop");
+        },
+        onRepeat: function(){
+            console.log("fireball repeat " , fireball  );
+            fireball.body.setEnable(false, false);
+            this.pause();
+            resumeTween();
+        }
+    })
+    
+    
+    
 
 //COIN  
     var coin = this.physics.add.sprite(this.game.canvas.width-32, this.physics.world.bounds.height - 175, 'coinPNG');
@@ -163,7 +183,7 @@ function create(){
 //PLAYER  
 
  
-   player = this.physics.add.sprite(352, this.physics.world.bounds.height - 150, 'cole');
+   player = this.physics.add.sprite(1552, this.physics.world.bounds.height - 150, 'cole');
    player.setBounce(0.5);
    player.setCollideWorldBounds(false);
    player.body.setSize(12,32);
@@ -193,7 +213,7 @@ function create(){
 
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, jumpThroughs, jumpThroughCollide);
-
+    this.physics.add.collider(player, bridgeRect);
     this.physics.add.overlap(player, coin, setWin);
 
 
@@ -317,12 +337,29 @@ function update(){
         }
     }  
 
-
+    mousePos();
     
     keyboardControls(false);
     checkPlayerOOB(player); 
     
 
+}
+
+
+function resumeTween(){
+    me.time.addEvent({
+        delay:1000,
+        callback: function(){
+            //fireball.enableBody(true);
+            fireballTween.resume();
+        }
+    })
+}
+
+function mousePos(){
+    if(me.input.mousePointer.isDown){
+        console.log(me.input.mousePointer.worldX + ", " + me.input.mousePointer.worldY);
+    }
 }
 
 function keyboardControls(testEnabled){
