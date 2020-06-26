@@ -91,7 +91,8 @@ function create(){
     this.add.image(420, this.physics.world.bounds.height-(48+110), 'scroll').setScale(0.15, 0.15);
     this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(0.04, 0.04);
 
-
+    var bridgeRect = Phaser.Geom.Rectangle(2250, this.physics.world.bounds.height-(48+60), (2851*0.5), (476*0.5));
+    
 //AUDIO
     var bkgMusic = this.sound.add('bkg', {volume: 0.12, loop: true});
     bkgMusic.play();
