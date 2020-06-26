@@ -23,7 +23,6 @@ var config = {
     backgroundColor: "#4488AA",
 };
 
-var game = new Phaser.Game(config);
 var player;
 var platforms;
 var move = false;
@@ -49,6 +48,7 @@ var jumpTimer;
 
 
 var worldHeight;
+var me;
 
 function preload(){
     this.load.image('greeble', 'assets/vis/greeble.png');
@@ -57,6 +57,11 @@ function preload(){
     this.load.spritesheet('cole', 'assets/vis/cole-run-only.png', {frameWidth: 32, frameHeight: 32});
     this.load.spritesheet('coinPNG', 'assets/vis/Coin.png', {frameWidth: 32, frameHeight: 32});
     this.load.image('box', 'assets/vis/128-box.png');
+
+
+    //"this" is a string
+    //123 is an integer
+    //1.23 is a float 
 
     //audio
     this.load.audio('bkg', 'assets/audio/harp_bourree.mp3');
@@ -79,11 +84,12 @@ function create(){
     this.physics.world.setBounds(0,0, this.game.canvas.width*4, this.game.canvas.height * 2);
 
     worldHeight = this.physics.world.bounds.height;
+
 //Backgrounds 
-this.add.image(720, this.physics.world.bounds.height-(48+118), 'globe').setScale(0.5,0.5);
-this.add.image(2250, this.physics.world.bounds.height-(48+60), 'bridge').setScale(0.5, 0.5);
-this.add.image(420, this.physics.world.bounds.height-(48+110), 'scroll').setScale(0.15, 0.15);
-this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(0.04, 0.04);
+    this.add.image(720, this.physics.world.bounds.height-(48+118), 'globe').setScale(0.5,0.5);
+    this.add.image(2250, this.physics.world.bounds.height-(48+60), 'bridge').setScale(0.5, 0.5);
+    this.add.image(420, this.physics.world.bounds.height-(48+110), 'scroll').setScale(0.15, 0.15);
+    this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(0.04, 0.04);
 
 
 //AUDIO
@@ -154,21 +160,25 @@ this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(
     collectibles.children.entries[0].body.setSize(75,55);
 
 //PLAYER  
-   var player_config = {
-       key: 'run',
-       frames: this.anims.generateFrameNumbers('cole'),
-       frameRate: 12,
-       repeat: -1
-   }
+
  
-   player = this.physics.add.sprite(2528, this.physics.world.bounds.height - 150, 'cole');
-   player.setBounce(0.2);
+   player = this.physics.add.sprite(352, this.physics.world.bounds.height - 150, 'cole');
+   player.setBounce(0.5);
    player.setCollideWorldBounds(false);
    player.body.setSize(12,32);
    player.body.setAllowGravity(true); //get rid of me once done testing
+
+    //player animation
+   var player_config = {
+    key: 'run',
+    frames: this.anims.generateFrameNumbers('cole'),
+    frameRate: 12,
+    repeat: -1
+    }
    player_anim = this.anims.create(player_config);
    player.anims.load('run');
    player.anims.play('run');
+
    playerSpawn.set(player.body.x, player.body.y);
 
    //camera to follow player
@@ -259,7 +269,7 @@ this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(
         jumpThroughs.children.entries[i].body.checkCollision.down = false; 
     } 
 
-   
+   me = this;
     
 }
 
@@ -272,7 +282,9 @@ function render(){
 
 
 function update(){       
-//probably unecessary as we don't have an easy control for mobile but meh 
+//press down to fall through a platform probably unecessary as we don't have an easy control for mobile but meh 
+
+
     if(player.body.touching.none){               
         onPassThrough = false;
     }else if(onPassThrough){
@@ -291,12 +303,10 @@ function update(){
     if(this.input.mousePointer.isDown || this.input.pointer1.isDown || this.input.pointer2.isDown){       
        if(leftDown){
             player.setVelocityX(-160);
-            player.flipX = true;
-           console.log("left is down");
+            player.flipX = true;         
         }else if(rightDown){
             player.setVelocityX(160);
-            player.flipX = false;      
-            console.log("right down");     
+            player.flipX = false;                       
         }  
     }else{        
         if(leftDown || rightDown){           
@@ -304,11 +314,18 @@ function update(){
             rightDown = false;  
             player.setVelocityX(0);
         }
-    }
+    }  
 
-  
 
-    //Keyboard contorls
+    
+    keyboardControls(false);
+    checkPlayerOOB(player); 
+    
+
+}
+
+function keyboardControls(testEnabled){
+       // //Keyboard contorls
     if(arrows.left.isDown){
         player.setVelocityX(-160);
         player.flipX = true;
@@ -319,30 +336,29 @@ function update(){
         player.setVelocityX(0);
     }
 
-    //Floaty controls for testing
-        // if(arrows.up.isDown){
-        //     player.setVelocityY(-160);
-        // }else if(arrows.down.isDown){
-        //     player.setVelocityY(160);
-        // }else{
-        //     player.setVelocityY(0);
-        // }
-    //end floaty
-  
-    if(arrows.up.isDown && player.body.touching.down){   
+    // //Floaty controls for testing
+    if(testEnabled == true){
+        player.body.setAllowGravity(false);        
+        if(arrows.up.isDown){
+            player.setVelocityY(-160);
+        }else if(arrows.down.isDown){
+            player.setVelocityY(160);
+        }else{
+            player.setVelocityY(0);
+        }
+    }else{
+        player.body.setAllowGravity(true);
+    }
+
+    if(arrows.up.isDown && player.body.touching.down){            
         player.setVelocityY(-275);       
-        let timedEvent = this.time.delayedCall(500, jumpDecay)
+        let timedEvent = me.time.delayedCall(500, jumpDecay)
     }
 
     if(!player.body.touching.down && arrows.up.isUp && player.body.velocity.y < 0){
         jumpDecay();
-    }    
-
-    checkPlayerOOB(player); 
-    
-
+    }  
 }
-
 
 function jumpThroughCollide(){
     onPassThrough = true;
@@ -378,3 +394,6 @@ function setWin(){
     }
 }
 
+
+
+var game = new Phaser.Game(config);
