@@ -61,7 +61,7 @@ function preload(){
     this.load.spritesheet('cole', 'assets/vis/cole-run-only.png', {frameWidth: 32, frameHeight: 32});
     this.load.spritesheet('coinPNG', 'assets/vis/Coin.png', {frameWidth: 32, frameHeight: 32});
     this.load.image('box', 'assets/vis/128-box.png');
-
+    this.load.image('cobblestone', 'assets/vis/ground-resize.jpg');
 
     //"this" is a string
     //123 is an integer
@@ -76,10 +76,10 @@ function preload(){
 
     //Shakespeare
     this.load.image('globe', 'assets/vis/globe-1.png');
-    this.load.image('old-bridge', 'assets/vis/old-london-bridge.jpg');
     this.load.image('scroll', 'assets/vis/scroll.png');
+    this.load.image('blank-scroll','assets/vis/blank-scroll.png');
     this.load.image('will', 'assets/vis/shakes-1.png');
-    this.load.image('bridge', 'assets/vis/bridge-1.png');
+    this.load.image('bridge', 'assets/vis/bridge-2.png');
 }
 
 
@@ -91,13 +91,17 @@ function create(){
 
 //Backgrounds 
     this.add.image(720, this.physics.world.bounds.height-(48+118), 'globe').setScale(0.5,0.5);
-    this.add.image(2250, this.physics.world.bounds.height-(48+60), 'bridge').setScale(0.5, 0.5);
-    this.add.image(420, this.physics.world.bounds.height-(48+110), 'scroll').setScale(0.15, 0.15);
-    this.add.image(250, this.physics.world.bounds.height-(48+110), 'will').setScale(0.04, 0.04);
+    this.add.image(2250, this.physics.world.bounds.height-(48+55), 'bridge')
+
 
     var bridgeRect = this.add.rectangle(2250, this.physics.world.bounds.height-37, (2851*0.5), (476*0.25), 0x6666ff, 0);
     this.physics.add.existing(bridgeRect);  
     bridgeRect.body.setAllowGravity(false);
+    bridgeRect.body.setImmovable(true);
+    //bridge respawn point
+    var bridgeSpawn = this.add.rectangle(1522, this.physics.world.bounds.height/2, 10, this.physics.world.bounds.height, 0x6666ff, 0);
+    this.physics.add.existing(bridgeSpawn);
+    bridgeSpawn.body.setAllowGravity(false);
     bridgeRect.body.setImmovable(true);
     
 //AUDIO
@@ -111,8 +115,10 @@ function create(){
   
     //opening ground level
     platforms.create(32*24, this.physics.world.bounds.height-48,'ground').setScale(48, 3).refreshBody();   //1 
-    //past london bridge ground
-    platforms.create(32*74, this.physics.world.bounds.height-48, 'ground').setScale(10,3).refreshBody(); //2
+    
+    //this is the tile sprite of the ground texture
+    var ts = this.add.tileSprite(32*24, this.physics.world.bounds.height-48, (48*32), 32*3, 'cobblestone');
+
     
     //upper left
     platforms.create(32*15, 300, 'ground').setScale(32, 1.5).refreshBody();
@@ -149,19 +155,24 @@ function create(){
         targets: fireball,
         x:2207,
         ease: 'Linear',
-        duration: 2500,
+        duration: 3500,
         repeat: -1, 
-        hold: 500,//pause when the yoyo reaches the end 
+        hold: 100,//pause when the yoyo reaches the end 
         yoyo: true,
-        flipX: false,
-        onYoyo: function(){ 
-            console.log("fireball loop");
-        },
-        onRepeat: function(){
-            console.log("fireball repeat " , fireball  );
-            fireball.body.setEnable(false, false);
+        flipX: true,
+        onYoyo: function(){             
+            fireball.body.enable = false;         
+            fireball.setVisible(false);
             this.pause();
             resumeTween();
+            fireball.flipX = false;            
+        },
+        onRepeat: function(){          
+            fireball.setVisible(false);
+            fireball.body.enable = false;
+            this.pause();
+            resumeTween();
+            fireball.flipX = true;
         }
     })
     
@@ -177,13 +188,21 @@ function create(){
 //BILL'S SCRIPTS
 
     var collectibles = this.physics.add.staticGroup();
-    collectibles.create(100, 225,'scroll').setScale(0.15, 0.15).refreshBody();
-    collectibles.children.entries[0].body.setSize(75,55);
+    collectibles.create(100, 225,'blank-scroll').setScale(0.20, 0.20).refreshBody(); //act I
+    var cBody = collectibles.children.entries[0].body;
+    collectibles.create(500, this.physics.world.bounds.height - 175, 'blank-scroll').setScale(0.2, 0.2).refreshBody();//act II
+    collectibles.create(1200, this.physics.world.bounds.height - 175, 'blank-scroll').setScale(0.2, 0.2).refreshBody();//act III
+    collectibles.create(1800, this.physics.world.bounds.height - 175, 'blank-scroll').setScale(0.2, 0.2).refreshBody();//act IV
+    collectibles.create(1700, this.physics.world.bounds.height - 175, 'blank-scroll').setScale(0.2, 0.2).refreshBody();//act V
+    collectibles.children.entries[0].body.setSize(collectibles.children.entries[0].body.width*.9,collectibles.children.entries[0].body.width*.6);
+    for(i=0;i<collectibles.children.entries.length;i++){
+        collectibles.children.entries[i].body.setSize(cBody.width*.9,collectibles.children.entries[0].body.width*.6);
+    }
 
 //PLAYER  
 
  
-   player = this.physics.add.sprite(1552, this.physics.world.bounds.height - 150, 'cole');
+   player = this.physics.add.sprite(252, 557, 'cole');
    player.setBounce(0.5);
    player.setCollideWorldBounds(false);
    player.body.setSize(12,32);
@@ -215,9 +234,10 @@ function create(){
     this.physics.add.collider(player, jumpThroughs, jumpThroughCollide);
     this.physics.add.collider(player, bridgeRect);
     this.physics.add.overlap(player, coin, setWin);
+    this.physics.add.overlap(player, fireball, respawnPlayer);
+    this.physics.add.overlap(player, bridgeSpawn, function(){playerSpawn.set(bridgeSpawn.body.x, 600);});
 
-
-
+    this.physics.add.overlap(player, collectibles, function(){console.log("got a script");});
   
 
 //Win State
@@ -259,8 +279,7 @@ function create(){
         rightDown = true;
     })
 
-    jumpButton.on('pointerdown', (pointer) => {
-        console.log('jump button');
+    jumpButton.on('pointerdown', (pointer) => {        
         if(player.body.touching.down){ //using these booleans doesn't work but we need to exempt the buttons           
             player.setVelocityY(-175);
             let eventTimer = this.time.delayedCall(500, jumpDecay)         
@@ -305,7 +324,7 @@ function render(){
 function update(){       
 //press down to fall through a platform probably unecessary as we don't have an easy control for mobile but meh 
 
-
+//    console.log(fireballTween.state);
     if(player.body.touching.none){               
         onPassThrough = false;
     }else if(onPassThrough){
@@ -349,8 +368,9 @@ function update(){
 function resumeTween(){
     me.time.addEvent({
         delay:1000,
-        callback: function(){
-            //fireball.enableBody(true);
+        callback: function(){            
+            fireball.body.enable = true;
+            fireball.setVisible(true);
             fireballTween.resume();
         }
     })
