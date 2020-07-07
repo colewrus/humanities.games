@@ -27,11 +27,10 @@ var player;
 var platforms;
 var move = false;
 var arrows; //arrow keys for keyboard control
-var win = false;
+
 
 var playerSpawn = new Phaser.Math.Vector2();
 
-var text;
 var winSound;
 
 var onPassThrough = false; //if you are on top of an object you can "down" through
@@ -50,16 +49,20 @@ var jumpTimer;
 var worldHeight;
 var me;
 
+var acts; //number of acts collected
+var maxActs; //maximum number to collect
+var collectibleText;
 
-var fireballTween; 
+
 
 
 function preload(){
+    //UI plugin
+   
     this.load.image('greeble', 'assets/vis/greeble.png');
     this.load.spritesheet('fireball', 'assets/vis/xfireball.png', {frameWidth: 32, frameHeight: 32});
     this.load.image('ground', 'assets/vis/red32x32.png');
     this.load.spritesheet('cole', 'assets/vis/cole-run-only.png', {frameWidth: 32, frameHeight: 32});
-    this.load.spritesheet('coinPNG', 'assets/vis/Coin.png', {frameWidth: 32, frameHeight: 32});
     this.load.image('box', 'assets/vis/128-box.png');
     this.load.image('cobblestone', 'assets/vis/ground-resize.jpg');
 
@@ -80,6 +83,7 @@ function preload(){
     this.load.image('blank-scroll','assets/vis/blank-scroll.png');
     this.load.image('will', 'assets/vis/shakes-1.png');
     this.load.image('bridge', 'assets/vis/bridge-2.png');
+    this.load.spritesheet('cart', 'assets/vis/cart.png', {frameWidth:1000, frameHeight:600});
 }
 
 
@@ -93,7 +97,7 @@ function create(){
     this.add.image(720, this.physics.world.bounds.height-(48+118), 'globe').setScale(0.5,0.5);
     this.add.image(2250, this.physics.world.bounds.height-(48+55), 'bridge')
 
-
+//London Bridge
     var bridgeRect = this.add.rectangle(2250, this.physics.world.bounds.height-37, (2851*0.5), (476*0.25), 0x6666ff, 0);
     this.physics.add.existing(bridgeRect);  
     bridgeRect.body.setAllowGravity(false);
@@ -122,6 +126,7 @@ function create(){
     
     //upper left
     platforms.create(32*15, 300, 'ground').setScale(32, 1.5).refreshBody();
+    var ts2 = this.add.tileSprite(32*15, 300, 32*32, 1.5*32, 'cobblestone'); 
 
     //Make platforms you can jump through here
     jumpThroughs = this.physics.add.staticGroup();
@@ -135,74 +140,73 @@ function create(){
 
 
 
-//FIREBALL
-     var fireball_config = {
-         key: 'base',
-         frames: this.anims.generateFrameNumbers('fireball', {end:4 }),
-         frameRate: 12,        
-         repeat: -1        
+//Carts
+     var cart_config = {
+         key: 'cartBase',
+         frames: this.anims.generateFrameNumbers('cart', {end:2}),
+         frameRate: 12,
+         repeat: -1
      }
-    fireball_anim = this.anims.create(fireball_config);
-    fireball = this.physics.add.sprite(1812, 600, 'fireball');     
-    fireball.body.setAllowGravity(false);
-   
-    fireball.body.setCircle(14,0,0);
-    fireball.angle = 0;
-    fireball.anims.load('base'); 
-    fireball.anims.play('base');
+     cart_anim = this.anims.create(cart_config);
 
-    fireballTween = this.tweens.add({
-        targets: fireball,
-        x:2207,
-        ease: 'Linear',
-        duration: 3500,
-        repeat: -1, 
-        hold: 100,//pause when the yoyo reaches the end 
-        yoyo: true,
-        flipX: true,
-        onYoyo: function(){             
-            fireball.body.enable = false;         
-            fireball.setVisible(false);
+
+     var cart = this.physics.add.sprite(1812, 600, 'cart').setScale(0.07, 0.07);
+     cart.body.setAllowGravity(false);
+
+     cart.anims.load('cartBase');
+     cart.anims.play('cartBase');
+
+     var cartTween = this.tweens.add({
+         targets: cart, 
+         x:2207,
+         ease: 'Linear',
+         duration: 3500,
+         repeat: -1,
+         hold: 100,
+         yoyo: true,
+         flipX: true,
+         onYoyo: function(){
+             cart.body.enable = false;
+             cart.setVisible(false);
+             this.pause();
+             resumeTween(cart, this);
+             cart.flipX = false;
+         },
+         onRepeat: function(){
+            cart.body.enable = false;
+            cart.setVisible(false);
             this.pause();
-            resumeTween();
-            fireball.flipX = false;            
-        },
-        onRepeat: function(){          
-            fireball.setVisible(false);
-            fireball.body.enable = false;
-            this.pause();
-            resumeTween();
-            fireball.flipX = true;
-        }
-    })
-    
-    
-    
+            resumeTween(cart, this);
+            cart.flipX = true;
+         }
+     })    
+     
 
-//COIN  
-    var coin = this.physics.add.sprite(this.game.canvas.width-32, this.physics.world.bounds.height - 175, 'coinPNG');
-    coin.body.setAllowGravity(false);
-    coin.body.setCircle(11,5,5);
-
+    
+    
 
 //BILL'S SCRIPTS
 
     var collectibles = this.physics.add.staticGroup();
+
     collectibles.create(100, 225,'blank-scroll').setScale(0.20, 0.20).refreshBody(); //act I
     var cBody = collectibles.children.entries[0].body;
     collectibles.create(500, this.physics.world.bounds.height - 175, 'blank-scroll').setScale(0.2, 0.2).refreshBody();//act II
     collectibles.create(1200, this.physics.world.bounds.height - 175, 'blank-scroll').setScale(0.2, 0.2).refreshBody();//act III
     collectibles.create(1800, this.physics.world.bounds.height - 175, 'blank-scroll').setScale(0.2, 0.2).refreshBody();//act IV
-    collectibles.create(1700, this.physics.world.bounds.height - 175, 'blank-scroll').setScale(0.2, 0.2).refreshBody();//act V
-    collectibles.children.entries[0].body.setSize(collectibles.children.entries[0].body.width*.9,collectibles.children.entries[0].body.width*.6);
+    collectibles.create(1700, this.physics.world.bounds.height - 175, 'blank-scroll').setScale(0.2, 0.2).refreshBody();//act V    
+    //collectibles.children.entries[0].body.setSize(collectibles.children.entries[0].body.width*.9,collectibles.children.entries[0].body.width*.6);
+    acts = 0;
+    maxActs = collectibles.children.entries.length;
     for(i=0;i<collectibles.children.entries.length;i++){
         collectibles.children.entries[i].body.setSize(cBody.width*.9,collectibles.children.entries[0].body.width*.6);
     }
 
+
 //PLAYER  
 
  
-   player = this.physics.add.sprite(252, 557, 'cole');
+   player = this.physics.add.sprite(1452, 457, 'cole');
    player.setBounce(0.5);
    player.setCollideWorldBounds(false);
    player.body.setSize(12,32);
@@ -232,17 +236,14 @@ function create(){
 
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, jumpThroughs, jumpThroughCollide);
-    this.physics.add.collider(player, bridgeRect);
-    this.physics.add.overlap(player, coin, setWin);
-    this.physics.add.overlap(player, fireball, respawnPlayer);
+    this.physics.add.collider(player, bridgeRect);   
+    this.physics.add.overlap(player, cart, respawnPlayer);
     this.physics.add.overlap(player, bridgeSpawn, function(){playerSpawn.set(bridgeSpawn.body.x, 600);});
 
-    this.physics.add.overlap(player, collectibles, function(){console.log("got a script");});
+    this.physics.add.overlap(player, collectibles, collectCollide);
   
 
-//Win State
-   text = this.add.text(300, 50, "You Win");
-   text.setVisible(false);
+
 
 
 //Desktop Controller
@@ -298,7 +299,7 @@ function create(){
     rightArrow.flipX = true;
     var arrowLine = this.add.line(100, this.game.canvas.height - 32, 0, 0, 0, 50, 0xffffff);
    
-   //camera stuph
+   //camera stuph to keep arrows on the screen
     leftArrow.setScrollFactor(0);
     rightArrow.setScrollFactor(0);
     arrowLine.setScrollFactor(0);
@@ -309,6 +310,15 @@ function create(){
         jumpThroughs.children.entries[i].body.checkCollision.down = false; 
     } 
 
+
+//collectible icon 
+    var collectIcon = this.add.image(this.game.canvas.width - 100, 25, 'blank-scroll').setScale(0.1,0.1);
+    collectIcon.setScrollFactor(0);    
+    collectibleText = this.add.text(this.game.canvas.width - 50, 10, 'x0', {fontFamily:'Arial', color: '#ffffff'});
+    collectibleText.setScrollFactor(0);
+
+
+//THIS variable
    me = this;
     
 }
@@ -365,13 +375,13 @@ function update(){
 }
 
 
-function resumeTween(){
+function resumeTween(_obj, _tween){
     me.time.addEvent({
         delay:1000,
         callback: function(){            
-            fireball.body.enable = true;
-            fireball.setVisible(true);
-            fireballTween.resume();
+            _obj.body.enable = true;
+            _obj.setVisible(true);
+            _tween.resume();
         }
     })
 }
@@ -423,6 +433,14 @@ function jumpThroughCollide(){
 }
 
 
+function collectCollide(_player, _collectible){
+    acts++;
+    console.log("acts collected " + acts);
+    _collectible.body.enable = false;
+    _collectible.setVisible(false);
+    collectibleText.text = "x" + acts;
+}
+
 
 function jumpDecay(){    
     if(player.body.velocity.y < 0)
@@ -444,13 +462,7 @@ function fireballTouch(){
     respawnPlayer();
 }
 
-function setWin(){
-    if(!win){  
-        text.setVisible(true);
-        winSound.play();
-        win = true;          
-    }
-}
+
 
 
 
