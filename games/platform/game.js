@@ -73,6 +73,10 @@ function preload(){
     //audio
     this.load.audio('bkg', 'assets/audio/harp_bourree.mp3');
     this.load.audio('win', 'assets/audio/trumpet_1.mp3');
+    this.load.audio('jump', 'assets/audio/jump-1.mp3');
+    this.load.audio('hit-cart', 'assets/audio/loss-1.mp3');
+    this.load.audio('collect-scroll', 'assets/audio/collect-4.mp3');
+
 
     //UI
     this.load.image('arrow', 'assets/vis/arrow.png');
@@ -109,10 +113,17 @@ function create(){
     bridgeRect.body.setImmovable(true);
     
 //AUDIO
-    var bkgMusic = this.sound.add('bkg', {volume: 0.12, loop: true});
+    var bkgMusic = this.sound.add('bkg', {volume: 0.08, loop: true});
     bkgMusic.play();
 
     winSound = this.sound.add('win', {volume: 0.25});
+
+    jumpSound = this.sound.add('jump', {volume: 0.01});
+
+    cartHitSound = this.sound.add('hit-cart', {volume: 0.15});
+
+    collectSound = this.sound.add('collect-scroll', {volume: 0.15});
+
 
 //STATIC PLATFORMS
     platforms = this.physics.add.staticGroup();
@@ -420,7 +431,8 @@ function keyboardControls(testEnabled){
 
     if(arrows.up.isDown && player.body.touching.down){            
         player.setVelocityY(-275);       
-        let timedEvent = me.time.delayedCall(500, jumpDecay)
+        let timedEvent = me.time.delayedCall(500, jumpDecay)       
+        jumpSound.play();
     }
 
     if(!player.body.touching.down && arrows.up.isUp && player.body.velocity.y < 0){
@@ -439,6 +451,7 @@ function collectCollide(_player, _collectible){
     _collectible.body.enable = false;
     _collectible.setVisible(false);
     collectibleText.text = "x" + acts;
+    collectSound.play();
 }
 
 
@@ -456,11 +469,9 @@ function checkPlayerOOB(p){
 
 function respawnPlayer(){
     player.setPosition(playerSpawn.x, playerSpawn.y);
+    cartHitSound.play();
 }
 
-function fireballTouch(){
-    respawnPlayer();
-}
 
 
 
