@@ -37,6 +37,11 @@ function preload(){
     this.load.audio('fanfare', 'assets/audio/trumpet_1.mp3');
     this.load.audio('hit', 'assets/audio/sfx_sounds_impact1.wav');
     this.load.audio('loss', 'assets/audio/loss-1.mp3');
+	
+		//Z's visuals
+	//this.load.spritesheet('bill', 'assets/visual/will-run.png');
+	this.load.image('tomato', 'assets/visual/tomato.png');
+	this.load.image('splat', 'assets/visual/splat.png');
 }
 
 
@@ -65,6 +70,7 @@ var scoreText;
 var infoText;
 
 var tomatoes = [];
+var splat = [];
 
 var script;
 
@@ -120,13 +126,19 @@ function create(){
 //TOMATOES
     const tomates = this.add.group();
     for(let y = 0; y<10; y++){
-        tomates.create(25+(y*75), 400, 'red').setScale(0.3, 0.3);
+        tomates.create(25+(y*75), 400, 'tomato').setScale(0.3, 0.3);
         this.physics.add.existing(tomates.children.entries[y]);
         tomates.children.entries[y].body.setAllowGravity(false);
         tomates.children.entries[y].body.onWorldBounds = true;
         tomatoes.push(tomates.children.entries[y]);        
     }
 
+	let splats = this.add.group();
+	for(splatX = 0; splatX<10; splatX++){
+		splats.create(25+(splatX*75), 200, 'splat').setScale(0.4, 0.4);
+		splat.push(splats.children.entries[splatX]);
+		splat[splatX].setVisible(false);
+	}
 
 
 
@@ -243,12 +255,23 @@ function tomatoHit(_p, _t){
     _t.body.setVelocityY(0);
     _t.y = 400;
     _t.body.enable = false;
+	console.log
     _t.setVisible(false);
     score -= 10;
     scoreText.text = "Score: " + score;
-    console.log("tomato hit");
+    console.log("hit xy " , _t.body.position);
+	splatMarker(splat[0], _t.body.position);
     hit.play();
 }
+
+function splatMarker(_s, vect){
+	console.log("my splat " , _s.x);
+	console.log("my pos " , vect);
+	_s.x = vect.x;
+	_s.y = vect.y;
+	_s.setVisible(true);	
+}
+
 
 function setCombo(){
     rawCombo = [];
