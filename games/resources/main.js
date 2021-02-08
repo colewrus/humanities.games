@@ -1,4 +1,4 @@
-
+//buzzfeed quiz
 function populateCards(domArray, _turn){
     for(i=0; i<_turn.cards.length; i++){    
         //currently sets icon on the card to the attached resource, could be unique by card
