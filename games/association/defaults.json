@@ -1,0 +1,34 @@
+{
+	"images" : {		
+	},
+	"sounds" : {},
+	"options" : {
+		"speed":{
+			"default": 300
+		},
+		"associations" :{
+			"default" : [
+				{ 
+					"question" : "An extreme exaggeration.",					
+					"answer" : "Hyperbole"
+				},
+				{ 
+					"question" : "Words and expressions that appeal to sight, sound, touch, smell, or taste.",					
+					"answer" : "Imagery"
+				},{ 
+					"question" : "An expression  using language that normally signifies the opposite.",					
+					"answer" : "Irony"
+				},{ 
+					"question" : "An indirect or passing refernce.",					
+					"answer" : "Allusion"
+				},{ 
+					"question" : "When the audience knows something the characters do not.",					
+					"answer" : "Dramatic Irony"
+				},{ 
+					"question" : "A comparison of two unlik things that does not use 'like' or 'as'.",					
+					"answer" : "Metaphor"
+				}	
+			]
+		}
+	}
+}

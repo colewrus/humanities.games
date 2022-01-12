@@ -1,0 +1,110 @@
+{
+    "text":{
+        "title":"Globetrot",
+        "about":{
+            "intro":"A game about cleaning trash and exploring the ocean. ",
+            "projectileText":"Avoid the trash",
+            "collectibleText":"Collect the fish to study."
+        }
+    },
+    "images":{
+        "projectiles" : {
+        
+            "options" : [                
+                {"id" : "projectiles_1", "value" : "assets/visual/default/projectile-0.png"},
+                {"id" : "projectiles_2", "value" : "assets/visual/default/projectile-1.png"},
+                {"id" : "projectiles_3", "value" : "assets/visual/default/projectile-2.png"}
+            ]
+        },
+        "infoButton":{
+            "default":"assets/visual/default/info-button.png"
+        },
+        "projectiles-0":{
+            "default":"assets/visual/default/projectile-0.png"
+        },
+        "projectiles-1":{
+            "default":"assets/visual/default/projectile-1.png"
+        },
+        "projectiles-2":{
+            "default":"assets/visual/default/projectile-2.png"
+        },     
+        "player-idle":{
+            "default": "assets/visual/default/player-idle.png"
+        },
+        "player-side-0":{
+            "default":"assets/visual/default/player-side-0.png"
+        },
+        "player-side-1":{
+            "default":"assets/visual/default/player-side-1.png"
+        },        
+        "collectible-0":{
+            "default":"assets/visual/default/collectible-0.png"
+        },
+        "collectible-1":{
+            "default":"assets/visual/default/collectible-1.png"
+        },
+        "background-0":{
+            "default":"assets/visual/default/background-0.png"
+        },
+        "foreground-0":{
+            "default":"assets/visual/default/foreground-1.png"
+        }        
+    },
+    "sounds":{
+
+    },
+    "questions":{
+        "value":[
+            {
+                "key":"AAA", 
+                "text":"Test Question A",
+                "answers":[
+                    {"key":"001", "text":"Test answer 1" },
+                    {"key":"002", "text":"Test answer 2"},
+                    {"key":"003", "text":"Test answer 3"},
+                    {"key":"004", "text":"Test answer 4"}
+
+                ],
+                "correct":"003"
+            },
+            {
+                "key":"AAB", 
+                "text":"Test Question B",
+                "answers":[
+                    {"key":"005", "text":"Test answer 5" },
+                    {"key":"006", "text":"Test answer 6"}               
+                ],
+                "correct":"005"
+            },
+            {
+                "key":"AAC", 
+                "text":"Test Question C",
+                "answers":[
+                    {"key":"007", "text":"Test answer 7" },
+                    {"key":"008", "text":"Test answer 8"},
+                    {"key":"009", "text":"Test answer 9"},
+                    {"key":"010", "text":"Test answer 10"}
+
+                ],
+                "correct":"008"
+            }
+        ]
+    },
+    "questionOrder":{
+        "default":[ ]
+    },
+    "options":{
+        "projectileDirection": {
+            "default": "right"
+        },
+        "projectileCount":{
+            "default": "6"
+        },
+        "projectileRate":{
+            "default":"1"
+        },
+        "projectileSpeed":{
+            "default": "500"
+        }
+    }
+}

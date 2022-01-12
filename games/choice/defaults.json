@@ -1,0 +1,91 @@
+{
+	"text" : {
+		"questions" : {
+			"default": [
+				"Your city values...",
+				"Your City is protected by....",
+				"Your city fears..."
+			]
+		}	
+	},
+	"images" : {},
+	"sounds" : {},
+	"options" : {
+		"results":[
+			{
+				"name":"Thebes",
+				"endText":"The largest city of the ancient region of Boeotia and was the leader of the Boeotian confederacy. A major rival to Athens and Sparta."
+			},
+			{
+				"name":"Athens",
+				"endText":"A center for the arts, learning and philosophy. A powerful city-state protected only by a wooden wall."
+			},
+			{
+				"name":"Sparta",
+				"endText":"Unique in ancient Greece for its social system and constitution. A society with all social institutions focused on military training and physical development."
+			}
+		],
+		"decks" :{
+			"default" : [
+				{ 
+					"name" : "Thebes",
+					"color" : "#df83e6",
+					"image": "assets/thebes-icon.png",
+					"cards" : [
+						{
+							"title" : "Power and influence",
+							"content" : "Thebes was shrewd and used it's central location to influence all of Greece"
+						},
+						{							
+							"title" : "Strong walls and a network of vassal states",
+							"content" : "While Thebes relied on control of it's neighbors to exert power it was also protected by strong fortifications"					
+						},
+						{	
+							"title" : "Isolation. Walls may protect from siege but vassals protect from invasion",
+							"content" : "Thebes was centrally located and used control over neighboring villages and cities to protect itself"				
+						}
+					]
+				},			
+				{ 
+					"name" : "Athens",
+					"color" : "#83e690",
+					"image":"assets/athens-icon.png",
+					"cards" : [
+						{
+							"title" : "Knowledge and wisdom",
+							"content" : "Athens was a hub for philosohpy and science"
+						
+						},
+						{
+							"title" : "A citizen army and a professional navy",
+							"content" : "Athens used silver from local mines to pay a professional navy."
+						},
+						{
+							"title" : "Tyrants and the mob, each a different but equal threat",
+							"content" :  "athens was a democracy but prone to domination by aristocrats or overrule in times of panic."
+						}						
+					]
+				},
+				{
+					"name": "Sparta",
+					"color": 	"#42875f",
+					"image":"assets/sparta-icon.png",
+					"cards" : [
+						{
+							"title" : "Perfect martial prowess.",
+							"content" : "Sparta was a brutal society that trained citizen men for one thing, war."
+						},
+						{
+							"title" : "Every man, a warrior.", 
+							"content" : "Spartans only raised citizen sons born without defect and dedicated their lives to training. However they maintained strong diplomacy to deploy their warriors only when necessary."				
+						},
+						{
+							"title": "A slave uprising, while warriors are in battle far away who keeps the homeland safe?",
+							"content" : "All Spartan citizen men being warriors meant they relied upon slave labor for food and manufacture."	
+						}
+					]
+				}	
+			]
+		}
+	}
+}

@@ -1,0 +1,50 @@
+{
+	"text" : {
+		"exchanges": {
+			"default": [
+				{
+					"question":"First question",
+					"answers": [ 
+								{"text":"Q1-A1", "id": "01a", "type": "0"},
+								{"text":"Q1-A2", "id":"01b", "type": "1"},
+								{"text":"Q1-A3", "id":"01c", "type": "2"}
+					]
+				},
+				{
+					"question":"Second question",
+					"answers": [ 
+						{"text":"Q2-A1", "id": "02a", "type": "0"},
+						{"text":"Q2-A2", "id":"02b", "type": "1"},
+						{"text":"Q2-A3", "id":"02c", "type": "2"}
+					]
+				},
+				{
+					"question":"Third question",
+					"answers": [ 
+						{"text":"Q3-A1", "id": "03a", "type": "0"},
+						{"text":"Q3-A2", "id":"03b", "type": "1"},
+						{"text":"Q3-A3", "id":"03c", "type": "2"}
+					]   
+				},
+				{
+					"question":"Fourth question",
+					"answers": [ 
+						{"text":"Q4-A1", "id": "04a", "type": "0"},
+						{"text":"Q4-A2", "id":"04b", "type": "1"},
+						{"text":"Q4-A3", "id":"04c", "type":"2"}
+					]
+				}
+			]
+		},
+		"resolutions": {
+			"default":[
+				{"type": "0", "text": "According to my calculations, you are type A"},
+				{"type": "1", "text": "According to my calculations, you are type B"},
+				{"type": "2", "text": "According to my calculations, you are type C"}
+			]
+		}		
+	},
+	"images" : {},
+	"sounds" : {},
+	"options" : {}
+}

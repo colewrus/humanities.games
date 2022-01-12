@@ -1,0 +1,111 @@
+.deck{
+	border: 3px solid black;	
+	border-radius: 10px;
+	min-height: 150px;
+	user-select:none;
+	margin-top: 5px;
+}
+
+.deck > p{
+	text-align: center;
+	color: white;
+	font-size: 3em;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: black;	
+}
+
+.deck:hover{
+	background-color: #edf0ee;
+}
+
+.deck:active{
+	background-color: #d3eded;
+}
+
+
+#selection{
+	border: 5px solid gray;	
+	border-radius: 10px;
+	/*min-height: 400px;*/
+	height: 100%;
+	white-space: pre-line;	
+	padding: 0 2vw;
+}
+
+#selection  > p:nth-child(3) {
+	text-align: center;
+	font-size: 3vh;
+}
+
+#final{
+	border: 5px solid black;
+	margin: 10px auto;
+	min-height: 400px;
+	border-radius: 10px;
+	white-space: pre-line;	
+
+}
+
+#final > div{
+	display: flex;
+	justify-content: center;
+}
+
+#final > div > img {
+	height: 256px;	
+}
+
+#interface {
+	margin-bottom: 5px;
+}
+
+
+@media only screen and (min-device-width: 375px) and (orientation: portrait){
+	.deck{
+		min-height: 75px;
+		max-width: 95vw;
+		margin: 0 auto;
+	}
+	
+	.deck > p {
+		font-size: 5vh;
+		-webkit-text-stroke-width: 1px;
+	}
+
+}
+
+/* iPhone X ----------- */
+@media only screen and (min-device-width: 812px) and (max-device-height: 375px) and (orientation : landscape){
+
+
+.deck{
+	min-height: 20vh;
+	margin-top: 1vh;
+}
+
+.deck > p {
+	font-size: 1em;
+	-webkit-text-stroke-width: 0px;
+}
+
+#selection{
+	border: 3px solid gray;		
+	border-radius: 10px;
+	/*min-height: 150px;		*/
+	white-space: pre-line;
+	height: 72vh;
+	overflow:scroll;
+	margin: 0px;
+}
+
+#selection > h1 {
+	font-size: 6vh;
+	line-height: 0px;
+}
+#selection > p {
+	font-size: 4vh;
+}
+
+}
+
+

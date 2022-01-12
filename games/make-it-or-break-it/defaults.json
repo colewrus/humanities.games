@@ -1,0 +1,99 @@
+{
+	"text" : {
+		"setup" : {
+			"default" : "Scott Joplin"
+		},
+		"conclusion" : {
+			"default" : {
+				"win" : "Scott Joplin was dubbed the King of Ragtime. Even after his passing his music was rediscovered and even popularized in 1973 Academy Award-winning film The Sting. His operas were also rediscovered during this time with Treemonisha finally produced and in 1976 Joplin was awarded a Pulitzer Prize.",
+				"loss" : "During his lifetime Scott Joplin was not able to find success outside of his ragtime works."
+			}
+		}
+	},
+	"images" : {
+		"portrait" : {
+			"default" : "assets/joplin-2.jpg"			
+		}		
+	},
+	"sounds" : {},
+	"options" : {
+		"winState" : {
+			"default" : 5
+		},
+		"maxDrawn" : {
+			"default" : 5
+		},
+		"decks" :{
+			"default" : [
+				{ 
+					"name" : "Musical Works",
+					"color" : "#df83e6",
+					"cards" : [
+						{
+							"title" : "Treemonisha",
+							"content" : "The music of Treemonisha includes an overture and prelude, along with various recitatives, choruses, small ensemble pieces, a ballet, and a few arias.",
+							"value" : 2
+						},
+						{							
+							"title" : "Maple Leaf Rag",
+							"content" : "One of Joplin's early works, and became the model for ragtime compositions.",
+							"value": 5
+						},
+						{	
+							"title" : "A Guest of Honor",
+							"content" : "During the tour, someone associated with the company stole the box office receipts. Joplin could not meet the company's payroll or pay for its lodgings at a theatrical boarding house.",
+							"value" : -1
+						}
+					]
+				},			
+				{ 
+					"name" : "Music Critics",
+					"color" : "#83e690",
+					"cards" : [
+						{
+							"title" : "Gate Keepers",
+							"content" : "When Joplin was learning the piano, serious musical circles condemned ragtime because of its association with the vulgar and inane songs. As a composer Joplin refined ragtime, elevating it above the low and unrefined form",
+							"value" : -2
+						},
+						{
+							"title" : "Walk Out",
+							"content" : "Bored or perhaps unimpressed by the dress rehearsal,  an audience including backers of Treemonisha walked out.",
+							"value" : -5
+						},
+						{
+							"title" : "Lost but not forgotten",
+							"content" :  "In January 1971, Harold C. Schonberg, music critic at The New York Times, having just heard the Rifkin album, wrote a featured Sunday edition article titled 'Scholars, Get Busy on Scott Joplin!' Schonberg's call to action has been described as the catalyst for classical music scholars, the sort of people Joplin had battled all his life, to conclude that Joplin was a genius.",
+							"value" : 3
+						}						
+					]
+				},
+				{
+					"name": "Personal Life",
+					"color": 	"#42875f",
+					"cards" : [
+						{
+							"title" : "Beginnings",
+							"content" : "Anecdotes relate that the young Scott Joplin gained access to a piano in a white-owned home where his mother worked, and taught himself the rudiments of music.",
+							"value" : 2
+						},
+						{
+							"title" : "Attend Music Class", 
+							"content" : "In 1896, it appears that he attended music classes at George R. Smith College in Sedalia. Anecdotes suggest that until the end of the 1890s he still lacked complete mastery of music notation.",
+							"value" : 3
+						},
+						{
+							"title": "Connections",
+							"content" : "Joplin obtained the assistance and guidance of a young Sedalia lawyer, Robert Higdon. In August 1899 they contracted with Sedalia music store owner and publisher John Stark to publish the Maple Leaf Rag, which was to become the greatest and most famous of piano rags.",
+							"value" : 5
+						},
+						{
+							"title" : "Illness",
+							"content" : "By 1916, Joplin was experiencing the devastating physical and mental effects of syphilis, a disease he had probably contracted almost 20 years earlier. By mid-January, 1917, he had to be hospitalized, and was soon transferred to a mental institution.",
+							"value" : -5
+						}
+					]
+				}	
+			]
+		}
+	}
+}

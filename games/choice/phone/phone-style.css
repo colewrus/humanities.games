@@ -1,0 +1,121 @@
+body {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(88, 85, 76);
+}
+
+#phone {
+    width: 400px;
+    min-height: 630px;
+    height: 90vh;
+    border: 5px solid black;
+    border-radius: 5px;
+    padding: 0px 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(40, 113, 126);
+}
+
+#reset{    
+  display: flex;
+  justify-content: flex-end;
+  margin: 1px 0;
+}
+
+#reset > div{
+    border: 2px solid blue;
+    border-radius: 5px;
+    padding: 0 2px; 
+    background-color: blue;
+    color: white;   
+}
+
+.hide {
+    display: none;
+}
+
+#messageContainer{
+    min-height: 350px;
+    height: 60%;
+    overflow-y: auto;
+    margin: 20px 5px;
+    display: flex;
+    flex-direction: column;
+    border-bottom:rgba(149, 148, 148, 0.8) 3px solid;
+}
+
+#messageContainer::-webkit-scrollbar{
+    width: 12px;
+    background-color: #F5F5F5;
+    border-radius: 10px;;
+}
+
+#messageContainer::-webkit-scrollbar-track {    
+    border-radius: 10px; 
+    background-color: #F5F5F5;
+}
+
+#messageContainer::-webkit-scrollbar-thumb{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    border-radius: 10px;
+    background-color: #555;
+}
+
+.message{    
+    color: white;
+    font-family: sans-serif;
+    margin: 8px 5px;
+    width: 70%;
+    padding: 2px 5px;
+    border-radius: 5px;    
+}
+
+.message.vis{
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.inbound{
+    background-color: rgb(54, 53, 53);
+    color: white;
+}
+
+.outbound{
+    background-color:rgb(179, 182, 180);
+    align-self: flex-end;
+    color: black;
+}
+#keyboard{
+
+}
+
+.answer{
+    background-color:rgb(179, 182, 180);
+    color: black;
+    font-family: sans-serif;    
+    margin: 8px 5px;
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+@media all and (max-width: 680px){
+    body{
+        padding: 0;
+        margin: 0;
+    }
+   #phone{
+        border-radius: 0px;
+        border: none;
+        width: 100%;
+        height: 100vh;
+   }
+
+   #messageContainer{
+        height: 60%;
+        border-bottom:rgba(149, 148, 148, 0.8) 3px solid;
+   }
+}

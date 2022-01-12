@@ -1,0 +1,29 @@
+{
+	"text" : {
+		"setup" : {
+			"custom" : false,
+			"value" : ""
+		},
+		"conclusion" : {
+			"custom" : false,
+			"value" : "Well done friend."
+		}
+	},
+	"images" : {
+		"runner" : {
+			"custom" : false,
+			"value" : "assets/will-pose.png"
+		},
+		"block1" : {
+			"custom" : false,
+			"value" : "assets/128-box.png"
+		},
+		"background" : {
+			"custom" : false,
+			"value" : "assets/bkg/clouds.png"
+		}	
+	},
+	"sounds" : {},
+	"options" : {	
+	}
+}

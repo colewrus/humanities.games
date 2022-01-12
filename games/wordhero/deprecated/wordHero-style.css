@@ -1,0 +1,144 @@
+.buffer{
+	width: 20vw;
+	background-color:#EEE;
+	
+}
+
+
+
+.buttons{
+	height: 100%;
+	position: relative;
+}
+
+#up{
+	position: absolute;
+	top: 0;
+	left: 25%;
+	width: 50%;
+	margin: 7vh auto;
+	border: 2px solid black;
+	border-radius: 7%;
+	padding: 1vh 2vw;
+	text-align: center;	
+}
+
+#down{	
+	position: absolute;
+	bottom: 0;
+	left: 25%;
+	width: 50%;
+	margin: 7vh auto;
+	border: 2px solid black;
+	border-radius: 7%;
+	padding: 1vh 2vw;
+	text-align: center;
+}
+
+
+#gamespace{
+	width: 60vw;
+	overflow: hidden;
+	height:40vw;
+	position: relative;
+	
+}
+
+#gamespace:hover{
+	cursor: none;
+}
+
+#one{
+	width:6vw;
+	height: 6vw;
+	position: absolute;
+	border: 1px solid black;
+	background-color: blue;
+}
+
+#two{
+	width:6vw;
+	height: 6vw;
+	position: absolute;
+	border: 1px solid black;
+	background-color: green;
+	left: 9vw;
+	top: 3vw;
+}
+
+.objects{
+	top:0;
+	left: 0;
+	position: absolute;
+	width: 1vw;
+	height: 1vw;
+	background:blue;
+}
+
+#pointer{
+	width:1vw;
+	height:1vw;
+	border:1px solid gray;
+	position: absolute;
+	background-color:black;
+	border-radius: 1vw;
+}
+
+#paddle{
+	width: 5vw;
+	height: 4vw;
+	position: absolute;
+	bottom: 1.5vh;
+	background-color: #5AA;
+    border-radius: 1vw;
+}
+
+#paddle img{
+	margin: 0 auto;
+	display: block;
+	width: 4vw;
+	height: 4vw;
+}
+
+/*css sprites*/
+#char{
+	margin-left: 25%;
+	height: 160px;
+	width: 160px;	
+	background: url('art/cole-spriteSheet.png') 0px 0px;
+	zoom: 50%;
+}
+
+#score{
+    position: relative;
+    top:1vh;
+    right:0; 
+    background-color: rgba(50,50,50, 0.65);
+    height: 4vh;
+    font-size: 3vh;
+    z-index: 5;
+    width: 100%;
+    border-radius: 3px;
+	padding: 0 1vw;
+}
+
+#score p{
+    float: right;
+    color: white;
+}
+
+
+.fall {
+	overflow: hidden;
+}
+
+.fall p{
+	padding: 0 .5vw;
+}
+
+.fall p img{
+	width: 1vw;
+	height: 1vw;
+	display: inline-block;
+	padding: .1vw;
+}

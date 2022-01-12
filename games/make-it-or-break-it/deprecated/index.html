@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Custom Style -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+	<link rel="stylesheet" href="style.css">
+    <title>Make It or Break It</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script>
+        var dataSource = 'data.json';
+        var defaultSource = 'defaults.json';
+    </script>
+	<script src="../hg-render/render.js"></script>
+	<script src="Card.js"></script>
+	<script src="Deck.js"></script>
+	<script src="game.js"></script>
+
+  </head>
+  <body>
+  
+	<div class="container">
+		
+		<h1 id="header">Make It or Break It</h1>	
+		<div class="row" id="interface">
+			<div class="col-sm score">
+				<p>Score: 0</p>
+			</div>
+			<div class="col-sm" id="turn">
+				<p>Turn: 0</p>
+			</div>
+			<div class="col-sm" >
+				<button type="button" class="btn btn-primary" id="reset">Reset</button>			
+			</div>
+		</div>
+		
+		<div class="row">
+
+			<div class="col-md-3 col-sm-3" id="deck-wrapper">		<!--deck area, max of 5 decks-->	
+	
+			
+			</div>
+	
+			<div class="col-md-6 col-sm-6">
+				<div id="selection">
+					<h1></h1>
+					<p></p>
+					<p></p>
+				</div>
+			</div>	
+			<div class="col-md-3 col-sm-3">
+				<!--
+				<div>
+					<p>1. Testing card hold area</p>
+					<p>Testing card hold area</p>
+					<p>Testing card hold area</p>
+					<p>Testing card hold area</p>
+				</div>
+				-->
+			</div>
+		</div>
+
+	</div>
+  
+  
+  
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>  
+ </html>

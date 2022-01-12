@@ -1,0 +1,19 @@
+{
+	"images" : {		
+		"player-idle": {
+			"default": "assets/visual/default/player-idle.png"
+		},
+		"player-run-0":{
+			"default":"assets/visual/default/player-run-0.png"
+		},
+		"player-run-1":{
+			"default":"assets/visual/default/player-run-1.png"
+		},
+		"collectible":{
+			"default":"assets/visual/default/coin-1.png"
+		}
+	},
+	"sounds" : {},
+	"options" : {		
+	}
+}

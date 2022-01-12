@@ -1,0 +1,98 @@
+{
+	"text" : {	
+		"title" : {
+			"default" : "Lost Sonnets"
+		},
+		"collectible_by_level" : {
+			"default": [
+				"Aha my scroll.\nTo be or not to be, that is the question.",
+				"Aha my scroll.\nThyself thy foe, to thy sweet self too cruel.",
+				"Aha my scroll.\nThen happy I that love and am beloved.",
+				"Aha my scroll.\nAll days are nights to see till I see thee.",
+				"Aha my scroll.\nThe rose looks fair, but fairer we it deem."
+			]
+		}	
+	},
+	"images" : {
+		"player" : {
+			"default" : "assets/player.png",
+			"options" :  [
+				{ "id" : "player_run_1", "value" : "assets/player-run-1.png"},
+				{ "id" : "player_run_2", "value" : "assets/player-run-2.png"},
+				{ "id" : "player_jump", "value" : "assets/player-jump.png"}
+			]
+		},
+		"player_run_1" :{
+			"default" : "assets/player-run-1.png"
+		},
+		"player_run_2": {
+			"default" : "assets/player-run-2.png"
+		},
+		"player_jump" : {
+			"default" : "assets/player-jump.png"
+		},
+		"staticPlatform" : { 
+			"default" : "assets/256-box.png"
+		},
+		"backgroundNear" : {
+			"default" : "assets/bkg/close.png"
+		},
+		"backgroundFar" : {
+			"default" : "assets/bkg/clouds.png"
+		},
+		"backgroundMid" : {
+			"default" : "assets/bkg/horizon.png"
+		},
+		"collectible" :{ 
+			"default" : "assets/blank-scroll.png",
+			"options":[
+				{"id":"collectible_1", "value": "assets/tomato.png"}
+			]
+		},	
+		"trap": { 
+			"default" : "assets/spikes.png"
+		},	
+		"projectile": {
+			"default" : "assets/fireball_0.png"
+		},
+		"projectile_1": { 
+			"default" : "assets/fireball_1.png"
+		},
+		"projectile_2": { 
+			"default" : "assets/fireball_2.png"
+		},
+		"arrow": {
+			"default" : "assets/arrow.png"
+		},
+		"jumpThrough" : {
+			"default" : "assets/jump-through-2.png"
+		}	
+	},
+	"sounds" : {	
+		"gameMusic":{
+			"default" : "assets/audio/8Bit-DNA-Loop.mp3"
+		},
+		"menuMusic":{
+			"default": "assets/audio/8Bit Platformer Loop.mp3"
+		},
+		"fxJump":{
+			"default":"assets/audio/jump2.wav"
+		},
+		"fxReset":{
+			"default":"assets/audio/Deep Cut.mp3"
+		},
+		"fxCollect":{
+			"default":"assets/audio/Unlock.mp3"
+		}
+	},
+	"options" : {
+		"levelOrder" : {
+			"default" : [
+				"level1",
+				"level2",
+				"level3",
+				"level4"
+			]
+		}
+	}
+}

@@ -16,6 +16,19 @@
 	background-size: contain;
 }
 
+
+#horizontal-list ul, li{
+	display: inline;	
+}
+
+#resource-list{
+	margin: 0 auto;
+	width: 80%;
+	text-align: center;
+}
+
+
+
 #card-table{
 	width: 100%;
 	text-align: center;

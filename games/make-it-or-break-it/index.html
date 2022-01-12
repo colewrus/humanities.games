@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Custom Style -->
+	<link rel="stylesheet" href="flex-style.css">
+    <title>Make It or Break It</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script>
+        var dataSource = 'data.json';
+        var defaultSource = 'defaults.json';
+    </script>
+	<script src="../hg-render/render.js"></script>
+    <script src="../lib/quizModal.js"></script>
+	<script src="Card.js"></script>
+	<script src="Deck.js"></script>
+	<script src="game.js"></script>
+
+  </head>
+  <body>
+    <div class="menu">
+        <div id="header"><p>Make it or Break it</p></div>        
+        <div id="turn"><p>Turn: 0</p></div>
+        <div id="score"><p>Score: 0</p></div>
+        <div id="reset"><button type="button" id="reset">Reset</button>	</div>
+       
+    </div>
+	<div class="container">
+        <div id="deck-wrapper">       
+                         
+        </div>
+
+        <div class="table">
+            <div id="selection">
+                <h1>Choose a card.</h1>
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+
+	</div>
+  
+    <div class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <section class="modal-question">
+
+                </section>
+                <div class="modal-answer">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+  
+  
+ </body>  
+ </html>

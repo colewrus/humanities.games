@@ -1,0 +1,43 @@
+{
+	"text" : {
+		"setup" : {
+			"custom" : false,
+			"value" : ""
+		},
+		"conclusion" : {
+			"custom" : true,
+			"value" : "Well done friend."
+		}
+	},
+	"images" : {
+		"runner" : {
+			"custom" : false,
+			"value" : "assets/player.png"
+		},
+		"block1" : {
+			"custom" : false,
+			"value" : "assets/128-box.png"
+		},
+		"background" : {
+			"custom" : false,
+			"value" : "assets/bkg/clouds.png"
+		}	
+	},
+	"sounds" : {
+		"gameMusic" : {
+			"custom" : false,
+			"value" : "assets/audio/8Bit-DNA-Loop.wav"
+		}
+	},
+	"options" : {
+		"levelOrder" : {
+			"custom" : true,
+			"value" : [
+				"level1",
+				"level2",
+				"level3",
+				"level4"								
+			]
+		}
+	}
+}
